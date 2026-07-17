@@ -194,6 +194,7 @@ Frontend validation produced 9 passing integration/client tests and V8 coverage 
 - [Testing strategy](docs/09-testing.md)
 - [Security and privacy](docs/07-security-privacy.md)
 - [Frontend contract](docs/10-frontend.md)
+- [Editorial design reference](DESIGN.md)
 - [Coding-agent playbook](docs/14-coding-agent-playbook.md)
 
 ## Status

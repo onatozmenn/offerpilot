@@ -6,17 +6,19 @@ The first screen is the operational experiment dashboard, not a marketing page. 
 
 ## Visual Direction
 
-Use a crisp editorial-instrument aesthetic:
+Use the warm editorial-instrument system defined in the root [DESIGN.md](../DESIGN.md):
 
-- Warm white canvas, near-black text, saturated green for healthy learning, coral for errors/stops, yellow for exploration, and cyan for the random benchmark.
-- IBM Plex Sans for interface text and IBM Plex Mono for values and identifiers.
-- Thin rules, square chart frames, restrained 4-6 px radii, and no gradients, blobs, glass effects, or nested cards.
-- Full-width sections with constrained content rather than floating page cards.
-- Letter spacing remains zero.
+- Eggshell `#fdfcfc` is the canvas, warm taupe `#f5f3f1` separates tool surfaces, stone `#ebe8e4` supplies hairline rules, and pure black anchors text and primary actions.
+- Inter 300 is the locally packaged Waldenburg substitute for display headings; Inter 400/500 owns interface text and IBM Plex Mono remains reserved for values and identifiers.
+- Buttons are fully pill-shaped, inputs stay compact at 4 px radius, and genuinely framed tools may use the design system's 20-24 px radii without nesting cards.
+- Violet `#0447ff` and orange `#ff4704` are restricted to chart/probability visuals and never become button, link, focus, or status chrome.
+- The top bar is an eggshell editorial wordmark row with a stone divider rather than a dark application masthead.
+- Full-width sections retain constrained content, generous rhythm, and hairline separation. No glass effects, decorative blobs, or marketing hero composition.
+- Letter spacing remains zero throughout the application.
 
 ## Page Structure
 
-1. Compact top bar with OfferPilot name, API health, and experiment selector.
+1. Compact transparent top bar with the OfferPilot wordmark, API health, and experiment selector.
 2. Simulation control band with seed, rate, maximum decisions, start, and stop.
 3. Stable metric strip for sample count, reward, engagement proxy, exploration, p95 latency, and policy version.
 4. Main learning chart comparing observed reward with simulated random and oracle references.
@@ -26,13 +28,14 @@ Use a crisp editorial-instrument aesthetic:
 
 ## Interaction Rules
 
-- Use Lucide icons for start, stop, refresh, health, and status controls with tooltips where meaning is not obvious.
+- Use Lucide icons for start, stop, refresh, health, and status controls with tooltips where meaning is not obvious; icons remain monochrome.
 - Use actual numeric inputs for seed, rate, and maximum events.
 - Disable start while a run is active and stop while no run is active.
 - Poll summary, run status, and decisions with one coordinated hook; stop polling on unmount.
 - Preserve the last valid data during transient refresh and show stale state explicitly.
 - Never display undefined metrics as `0`; show an em dash and the API reason in a tooltip.
 - Surface that benchmarks are synthetic next to the chart legend.
+- Keep all command hierarchy achromatic: black filled primary actions, eggshell outline secondary actions, and text/icon ghost controls.
 
 ## Responsive Behavior
 

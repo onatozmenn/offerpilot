@@ -20,7 +20,7 @@ Define the frontend package, scripts, runtime dependencies, and development tool
 ## Required Behavior
 
 - Mark package private and use ESM.
-- Include React, Recharts, Lucide React, and locally packaged IBM Plex Sans/Mono fonts as runtime dependencies.
+- Include React, Recharts, Lucide React, locally packaged Inter 300/400/500, and IBM Plex Mono as runtime dependencies.
 - Pin a React 19-compatible Recharts release whose published declarations pass strict typechecking without `skipLibCheck`.
 - Include Vite, TypeScript, `@types/node`, ESLint flat-config plugins, Vitest, jsdom, and Testing Library as development dependencies.
 - Pin compatible versions through `package-lock.json`; do not use runtime wildcard ranges.
@@ -41,6 +41,6 @@ Define the frontend package, scripts, runtime dependencies, and development tool
 
 ## Completion Checklist
 
-- [ ] Scripts match CI/testing docs.
-- [ ] Dependencies are minimal and compatible.
-- [ ] Generated lockfile is committed unedited.
+- [x] Scripts match CI/testing docs.
+- [x] Dependencies are minimal and compatible.
+- [x] Generated lockfile is committed unedited.

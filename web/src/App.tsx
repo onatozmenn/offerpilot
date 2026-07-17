@@ -60,16 +60,12 @@ export default function App() {
   };
 
   return (
-    <div className="app-shell">
+    <div className="app-shell" id="top">
       <header className="topbar">
         <div className="topbar__inner">
-          <div className="brand-lockup">
-            <span className="brand-mark" aria-hidden="true"><Activity size={22} /></span>
-            <div>
-              <h1>OfferPilot</h1>
-              <p>Offer learning console</p>
-            </div>
-          </div>
+          <a className="brand-lockup" href="#top" aria-label="OfferPilot dashboard home">
+            <h1>OfferPilot</h1>
+          </a>
 
           <div className="topbar__operations">
             <HealthStatus status={dashboard.status.health} ready={dashboard.health?.status === "ready"} />
@@ -198,7 +194,7 @@ export default function App() {
           </p>
         </main>
       ) : (
-        <main>
+        <main className="dashboard">
           <section className="band band--controls" aria-labelledby="simulation-controls-title">
             <div className="band-content">
               <div className="experiment-context">
@@ -255,7 +251,7 @@ export default function App() {
             </div>
           </section>
 
-          <section className="band">
+          <section className="band band--learning">
             <div className="band-content">
               <Suspense fallback={<LearningChartFallback />}>
                 <LearningChart
@@ -271,7 +267,7 @@ export default function App() {
             </div>
           </section>
 
-          <section className="band">
+          <section className="band band--offers">
             <div className="band-content">
               <OfferPerformanceTable
                 rows={dashboard.summary?.offer_performance ?? []}

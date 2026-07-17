@@ -18,8 +18,9 @@ Implement OfferPilot's responsive visual system and component styling.
 
 ## Required Behavior
 
-- Define a multi-accent warm-white/ink palette, typography, spacing, borders, focus rings, and stable dimensions.
-- Use IBM Plex families, zero letter spacing, restrained radii, full-width bands, and no gradients/orbs/glass/nested cards.
+- Define the eggshell/taupe/stone/ink palette, typography, spacing, borders, focus rings, and stable dimensions from `DESIGN.md`.
+- Use local Inter 300/400/500 plus IBM Plex Mono, zero letter spacing, pill buttons, 20-24 px framed-tool radii, full-width bands, and no gradients/orbs/glass/nested cards.
+- Restrict violet and orange accents to data/product visuals rather than UI chrome.
 - Maintain chart aspect ratio, metric/control heights, table overflow affordance, 44 px touch targets, and non-overlap from 320 px upward.
 - Style reduced motion, keyboard focus, disabled, loading, stale, error, and screen-reader utility states.
 

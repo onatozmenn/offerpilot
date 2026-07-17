@@ -23,6 +23,7 @@ Compose the complete operational dashboard and coordinate component-level states
 - Represent initial loading, no experiment, partial panel error, stale data, running/stopping/completed, and fatal API error states.
 - Allow creating a fresh demo experiment from the empty state.
 - Preserve last valid panel data during transient refresh failures.
+- Compose the operational controls and data surfaces using the editorial wordmark/header and section hierarchy in `DESIGN.md` without adding a marketing hero.
 
 ## Failure Cases
 

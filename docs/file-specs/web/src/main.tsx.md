@@ -18,7 +18,7 @@ Initialize React, global styles/fonts, and the root application.
 
 ## Required Behavior
 
-- Import font weights actually used and one global stylesheet.
+- Import the locally packaged Inter 300/400/500 and IBM Plex Mono weights actually used plus one global stylesheet.
 - Validate the root element and fail with a clear developer error if absent.
 - Render `App` under `StrictMode` without global mutable clients.
 
