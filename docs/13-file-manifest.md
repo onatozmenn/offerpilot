@@ -10,7 +10,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | --- | --- | --- | --- |
 | F001 | `.gitignore` | [spec](file-specs/.gitignore.md) | `validated` |
 | F002 | `.env.example` | [spec](file-specs/.env.example.md) | `specified` |
-| F003 | `LICENSE` | [spec](file-specs/LICENSE.md) | `specified` |
+| F003 | `LICENSE` | [spec](file-specs/LICENSE.md) | `validated` |
 | F004 | `go.mod` | [spec](file-specs/go.mod.md) | `specified` |
 | F005 | `.golangci.yml` | [spec](file-specs/.golangci.yml.md) | `specified` |
 | F006 | `scripts/validate-docs.ps1` | [spec](file-specs/scripts/validate-docs.ps1.md) | `validated` |
