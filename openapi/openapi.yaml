@@ -1,0 +1,1253 @@
+openapi: 3.1.0
+info:
+  title: OfferPilot API
+  version: 0.1.0
+  description: API for privacy-safe synthetic marketplace offer-learning experiments.
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: http://127.0.0.1:8080
+    description: Local development
+security: []
+tags:
+  - name: Operations
+    description: Process health, readiness, and bounded operational metrics.
+  - name: Demo
+    description: Creation of synthetic experiments with fictional offers.
+  - name: Experiments
+    description: Experiment configuration and persisted aggregate views.
+  - name: Decisions
+    description: Auditable offer selections with complete action probabilities.
+  - name: Outcomes
+    description: Idempotent terminal feedback and applied policy versions.
+  - name: Simulations
+    description: Bounded, seeded synthetic traffic runs.
+paths:
+  /health/live:
+    get:
+      tags: [Operations]
+      operationId: getLiveness
+      summary: Check process liveness
+      responses:
+        "200":
+          description: The API process is alive.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+              example:
+                status: live
+  /health/ready:
+    get:
+      tags: [Operations]
+      operationId: getReadiness
+      summary: Check dependency and policy readiness
+      responses:
+        "200":
+          description: The API is ready to serve requests.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+              example:
+                status: ready
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /metrics:
+    get:
+      tags: [Operations]
+      operationId: getMetrics
+      summary: Read Prometheus metrics
+      responses:
+        "200":
+          description: Prometheus text exposition.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            text/plain:
+              schema:
+                type: string
+  /v1/demo/experiments:
+    post:
+      tags: [Demo]
+      operationId: createDemoExperiment
+      summary: Create a fresh fictional demo experiment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDemoExperimentRequest"
+            example:
+              name: Evening marketplace demo
+              policy_kind: segmented_epsilon_greedy
+              epsilon: 0.15
+      responses:
+        "201":
+          description: A fresh demo experiment was created.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+            Location:
+              $ref: "#/components/headers/Location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExperimentDetail"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "413":
+          $ref: "#/components/responses/RequestTooLarge"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /v1/experiments:
+    get:
+      tags: [Experiments]
+      operationId: listExperiments
+      summary: List experiments newest first
+      parameters:
+        - $ref: "#/components/parameters/ExperimentLimit"
+        - $ref: "#/components/parameters/Cursor"
+      responses:
+        "200":
+          description: A cursor-paginated experiment page.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExperimentPage"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalError"
+  /v1/experiments/{experiment_id}:
+    get:
+      tags: [Experiments]
+      operationId: getExperiment
+      summary: Get one experiment and its active offers
+      parameters:
+        - $ref: "#/components/parameters/ExperimentID"
+      responses:
+        "200":
+          description: Experiment configuration and active offers.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExperimentDetail"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+  /v1/experiments/{experiment_id}/summary:
+    get:
+      tags: [Experiments]
+      operationId: getExperimentSummary
+      summary: Get persisted learning and benchmark aggregates
+      parameters:
+        - $ref: "#/components/parameters/ExperimentID"
+        - name: max_learning_points
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 120
+            default: 120
+      responses:
+        "200":
+          description: Dashboard-ready persisted summary.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExperimentSummary"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /v1/experiments/{experiment_id}/decisions:
+    get:
+      tags: [Decisions]
+      operationId: listExperimentDecisions
+      summary: List recent decisions newest first
+      parameters:
+        - $ref: "#/components/parameters/ExperimentID"
+        - $ref: "#/components/parameters/DecisionLimit"
+        - $ref: "#/components/parameters/Cursor"
+      responses:
+        "200":
+          description: A cursor-paginated decision page.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecisionPage"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+  /v1/decisions:
+    post:
+      tags: [Decisions]
+      operationId: createDecision
+      summary: Select one eligible fictional offer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDecisionRequest"
+            example:
+              experiment_id: 742fb9d5-2b29-475f-b593-cbae1c748548
+              context:
+                device_class: mobile
+                daypart: evening
+                category_affinity: travel
+                visitor_type: returning
+      responses:
+        "201":
+          description: The validated decision was persisted.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+            Location:
+              $ref: "#/components/headers/Location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Decision"
+              example:
+                decision_id: 7923cfb7-0edc-4f84-a624-68457f45bb38
+                experiment_id: 742fb9d5-2b29-475f-b593-cbae1c748548
+                context:
+                  device_class: mobile
+                  daypart: evening
+                  category_affinity: travel
+                  visitor_type: returning
+                selected_offer:
+                  id: f2dd0caa-99d7-4f58-bbae-c440969304f1
+                  slug: northstar-travel
+                  merchant_name: Northstar Travel
+                  title: Weekend fare drop
+                  category: travel
+                eligible_offer_ids:
+                  - 43039a27-4750-402d-839f-82dc5f147709
+                  - 4e101797-6ea7-4481-8282-2c07ff2bca29
+                  - 9892c51a-bbca-4d4b-b7dd-d164c2386a20
+                  - f2dd0caa-99d7-4f58-bbae-c440969304f1
+                propensity: 0.79
+                distribution:
+                  - offer_id: 43039a27-4750-402d-839f-82dc5f147709
+                    probability: 0.07
+                  - offer_id: 4e101797-6ea7-4481-8282-2c07ff2bca29
+                    probability: 0.07
+                  - offer_id: 9892c51a-bbca-4d4b-b7dd-d164c2386a20
+                    probability: 0.07
+                  - offer_id: f2dd0caa-99d7-4f58-bbae-c440969304f1
+                    probability: 0.79
+                policy_kind: segmented_epsilon_greedy
+                policy_version: 84
+                policy_latency_micros: 127
+                outcome: null
+                created_at: "2026-07-17T19:20:30Z"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "413":
+          $ref: "#/components/responses/RequestTooLarge"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /v1/outcomes:
+    post:
+      tags: [Outcomes]
+      operationId: createOutcome
+      summary: Record one terminal outcome
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOutcomeRequest"
+            example:
+              event_id: 32ac570c-ec1e-4f06-922d-58e636ebff63
+              decision_id: 7923cfb7-0edc-4f84-a624-68457f45bb38
+              outcome: converted
+              occurred_at: "2026-07-17T19:20:34Z"
+      responses:
+        "201":
+          description: A new outcome was accepted and applied.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+            Location:
+              $ref: "#/components/headers/Location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Outcome"
+        "200":
+          description: An exact idempotent retry returned the original outcome.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Outcome"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "413":
+          $ref: "#/components/responses/RequestTooLarge"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /v1/experiments/{experiment_id}/simulation-runs:
+    post:
+      tags: [Simulations]
+      operationId: createSimulationRun
+      summary: Start one bounded in-process simulation
+      parameters:
+        - $ref: "#/components/parameters/ExperimentID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSimulationRunRequest"
+            example:
+              seed: 20260717
+              requests_per_second: 20
+              max_decisions: 5000
+      responses:
+        "201":
+          description: The simulation run was created.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+            Location:
+              $ref: "#/components/headers/Location"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationRun"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "413":
+          $ref: "#/components/responses/RequestTooLarge"
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalError"
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+  /v1/simulation-runs/{run_id}:
+    get:
+      tags: [Simulations]
+      operationId: getSimulationRun
+      summary: Get one simulation run
+      parameters:
+        - $ref: "#/components/parameters/RunID"
+      responses:
+        "200":
+          description: The current run state and counters.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationRun"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+  /v1/simulation-runs/{run_id}/stop:
+    post:
+      tags: [Simulations]
+      operationId: stopSimulationRun
+      summary: Request idempotent simulation cancellation
+      parameters:
+        - $ref: "#/components/parameters/RunID"
+      responses:
+        "202":
+          description: The run is stopping or already terminal.
+          headers:
+            X-Request-ID:
+              $ref: "#/components/headers/RequestID"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationRun"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+components:
+  headers:
+    RequestID:
+      description: Correlation identifier for the request.
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 128
+    Location:
+      description: Relative URI of the created resource.
+      schema:
+        type: string
+  parameters:
+    ExperimentID:
+      name: experiment_id
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/UUID"
+    RunID:
+      name: run_id
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/UUID"
+    Cursor:
+      name: cursor
+      in: query
+      required: false
+      schema:
+        type: string
+        minLength: 1
+        maxLength: 512
+    ExperimentLimit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 50
+    DecisionLimit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+  responses:
+    BadRequest:
+      description: The request shape or syntax is invalid.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    NotFound:
+      description: The requested resource does not exist.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    Conflict:
+      description: The operation conflicts with current persisted state.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    RequestTooLarge:
+      description: The request body exceeds the configured one MiB limit.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    UnsupportedMediaType:
+      description: A JSON write request did not use application/json.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    UnprocessableEntity:
+      description: The request is syntactically valid but violates a domain invariant.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    InternalError:
+      description: An internal error occurred; implementation details are redacted.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+    ServiceUnavailable:
+      description: A dependency or recovered policy is unavailable.
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/RequestID"
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Problem"
+  schemas:
+    UUID:
+      type: string
+      format: uuid
+    Timestamp:
+      type: string
+      format: date-time
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [live, ready]
+    DeviceClass:
+      type: string
+      enum: [mobile, desktop, tablet]
+    Daypart:
+      type: string
+      enum: [morning, afternoon, evening, night]
+    OfferCategory:
+      type: string
+      enum: [travel, dining, wellness, home, technology, entertainment]
+    VisitorType:
+      type: string
+      enum: [new, returning]
+    PolicyKind:
+      type: string
+      enum: [random, segmented_epsilon_greedy]
+    ExperimentStatus:
+      type: string
+      enum: [draft, running, paused, completed]
+    OutcomeKind:
+      type: string
+      enum: [ignored, clicked, converted]
+    SimulationRunStatus:
+      type: string
+      enum: [starting, running, stopping, completed, failed, cancelled]
+    SessionContext:
+      type: object
+      additionalProperties: false
+      required: [device_class, daypart, category_affinity, visitor_type]
+      properties:
+        device_class:
+          $ref: "#/components/schemas/DeviceClass"
+        daypart:
+          $ref: "#/components/schemas/Daypart"
+        category_affinity:
+          $ref: "#/components/schemas/OfferCategory"
+        visitor_type:
+          $ref: "#/components/schemas/VisitorType"
+    Offer:
+      type: object
+      additionalProperties: false
+      required: [id, slug, merchant_name, title, description, category, active]
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        slug:
+          type: string
+          minLength: 1
+        merchant_name:
+          type: string
+          minLength: 1
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+        category:
+          $ref: "#/components/schemas/OfferCategory"
+        active:
+          type: boolean
+    OfferSummary:
+      type: object
+      additionalProperties: false
+      required: [id, slug, merchant_name, title, category]
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        slug:
+          type: string
+          minLength: 1
+        merchant_name:
+          type: string
+          minLength: 1
+        title:
+          type: string
+          minLength: 1
+        category:
+          $ref: "#/components/schemas/OfferCategory"
+    ActionProbability:
+      type: object
+      additionalProperties: false
+      required: [offer_id, probability]
+      properties:
+        offer_id:
+          $ref: "#/components/schemas/UUID"
+        probability:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+    Experiment:
+      type: object
+      additionalProperties: false
+      required: [id, slug, name, status, policy_kind, epsilon, policy_version, created_at, updated_at]
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        slug:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        status:
+          $ref: "#/components/schemas/ExperimentStatus"
+        policy_kind:
+          $ref: "#/components/schemas/PolicyKind"
+        epsilon:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+        policy_version:
+          type: integer
+          format: int64
+          minimum: 1
+        created_at:
+          $ref: "#/components/schemas/Timestamp"
+        updated_at:
+          $ref: "#/components/schemas/Timestamp"
+    ExperimentDetail:
+      type: object
+      additionalProperties: false
+      required: [id, slug, name, status, policy_kind, epsilon, policy_version, created_at, updated_at, offers]
+      properties:
+        id:
+          $ref: "#/components/schemas/UUID"
+        slug:
+          type: string
+          minLength: 1
+        name:
+          type: string
+          minLength: 1
+        status:
+          $ref: "#/components/schemas/ExperimentStatus"
+        policy_kind:
+          $ref: "#/components/schemas/PolicyKind"
+        epsilon:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+        policy_version:
+          type: integer
+          format: int64
+          minimum: 1
+        created_at:
+          $ref: "#/components/schemas/Timestamp"
+        updated_at:
+          $ref: "#/components/schemas/Timestamp"
+        offers:
+          type: array
+          minItems: 2
+          items:
+            $ref: "#/components/schemas/Offer"
+    ExperimentPage:
+      type: object
+      additionalProperties: false
+      required: [items, next_cursor]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Experiment"
+        next_cursor:
+          type: [string, "null"]
+    DecisionOutcome:
+      type: object
+      additionalProperties: false
+      required: [event_id, outcome, reward, occurred_at, received_at, applied_policy_version]
+      properties:
+        event_id:
+          $ref: "#/components/schemas/UUID"
+        outcome:
+          $ref: "#/components/schemas/OutcomeKind"
+        reward:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+        occurred_at:
+          $ref: "#/components/schemas/Timestamp"
+        received_at:
+          $ref: "#/components/schemas/Timestamp"
+        applied_policy_version:
+          type: integer
+          format: int64
+          minimum: 1
+    Decision:
+      type: object
+      additionalProperties: false
+      required:
+        - decision_id
+        - experiment_id
+        - context
+        - selected_offer
+        - eligible_offer_ids
+        - propensity
+        - distribution
+        - policy_kind
+        - policy_version
+        - policy_latency_micros
+        - outcome
+        - created_at
+      properties:
+        decision_id:
+          $ref: "#/components/schemas/UUID"
+        experiment_id:
+          $ref: "#/components/schemas/UUID"
+        context:
+          $ref: "#/components/schemas/SessionContext"
+        selected_offer:
+          $ref: "#/components/schemas/OfferSummary"
+        eligible_offer_ids:
+          type: array
+          minItems: 2
+          uniqueItems: true
+          items:
+            $ref: "#/components/schemas/UUID"
+        propensity:
+          type: number
+          format: double
+          exclusiveMinimum: 0
+          maximum: 1
+        distribution:
+          type: array
+          minItems: 2
+          items:
+            $ref: "#/components/schemas/ActionProbability"
+        policy_kind:
+          $ref: "#/components/schemas/PolicyKind"
+        policy_version:
+          type: integer
+          format: int64
+          minimum: 1
+        policy_latency_micros:
+          type: integer
+          format: int64
+          minimum: 0
+        outcome:
+          anyOf:
+            - $ref: "#/components/schemas/DecisionOutcome"
+            - type: "null"
+        created_at:
+          $ref: "#/components/schemas/Timestamp"
+    DecisionPage:
+      type: object
+      additionalProperties: false
+      required: [items, next_cursor]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Decision"
+        next_cursor:
+          type: [string, "null"]
+    Outcome:
+      type: object
+      additionalProperties: false
+      required: [event_id, decision_id, outcome, reward, occurred_at, received_at, applied_policy_version]
+      properties:
+        event_id:
+          $ref: "#/components/schemas/UUID"
+        decision_id:
+          $ref: "#/components/schemas/UUID"
+        outcome:
+          $ref: "#/components/schemas/OutcomeKind"
+        reward:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+        occurred_at:
+          $ref: "#/components/schemas/Timestamp"
+        received_at:
+          $ref: "#/components/schemas/Timestamp"
+        applied_policy_version:
+          type: integer
+          format: int64
+          minimum: 1
+    OfferPerformance:
+      type: object
+      additionalProperties: false
+      required:
+        - offer
+        - selection_count
+        - outcome_count
+        - ignored_count
+        - clicked_count
+        - converted_count
+        - reward_sum
+        - empirical_mean
+        - current_policy_mean
+        - current_probability
+      properties:
+        offer:
+          $ref: "#/components/schemas/Offer"
+        selection_count:
+          type: integer
+          format: int64
+          minimum: 0
+        outcome_count:
+          type: integer
+          format: int64
+          minimum: 0
+        ignored_count:
+          type: integer
+          format: int64
+          minimum: 0
+        clicked_count:
+          type: integer
+          format: int64
+          minimum: 0
+        converted_count:
+          type: integer
+          format: int64
+          minimum: 0
+        reward_sum:
+          type: number
+          format: double
+          minimum: 0
+        empirical_mean:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+        current_policy_mean:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+        current_probability:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+    LearningSeriesPoint:
+      type: object
+      additionalProperties: false
+      required: [timestamp, sample_count, cumulative_average_reward]
+      properties:
+        timestamp:
+          $ref: "#/components/schemas/Timestamp"
+        sample_count:
+          type: integer
+          format: int64
+          minimum: 1
+        cumulative_average_reward:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 1
+    SimulationBenchmark:
+      type: object
+      additionalProperties: false
+      required: [kind, expected_average_reward, sample_count, reason, simulation_only]
+      properties:
+        kind:
+          type: string
+          enum: [random, oracle]
+        expected_average_reward:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+        sample_count:
+          type: integer
+          format: int64
+          minimum: 0
+        reason:
+          type: [string, "null"]
+        simulation_only:
+          type: boolean
+          const: true
+    OPEEstimate:
+      type: object
+      additionalProperties: false
+      required: [ips, snips, sample_count, effective_sample_size, weight_sum, min_weight, max_weight, reason]
+      properties:
+        ips:
+          type: [number, "null"]
+        snips:
+          type: [number, "null"]
+        sample_count:
+          type: integer
+          minimum: 0
+        effective_sample_size:
+          type: number
+          minimum: 0
+        weight_sum:
+          type: number
+          minimum: 0
+        min_weight:
+          type: number
+          minimum: 0
+        max_weight:
+          type: number
+          minimum: 0
+        reason:
+          type: [string, "null"]
+          enum: [no_samples, zero_candidate_weight, low_effective_sample_size, null]
+    ExperimentSummary:
+      type: object
+      additionalProperties: false
+      required:
+        - experiment_id
+        - policy_kind
+        - policy_version
+        - exploration_rate
+        - decision_count
+        - outcome_count
+        - reward_sum
+        - average_reward
+        - ignored_count
+        - clicked_count
+        - converted_count
+        - p50_policy_latency_micros
+        - p95_policy_latency_micros
+        - offer_performance
+        - learning_series
+        - random_benchmark
+        - oracle_benchmark
+        - ope
+        - reasons
+        - generated_at
+      properties:
+        experiment_id:
+          $ref: "#/components/schemas/UUID"
+        policy_kind:
+          $ref: "#/components/schemas/PolicyKind"
+        policy_version:
+          type: integer
+          format: int64
+          minimum: 1
+        exploration_rate:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+        decision_count:
+          type: integer
+          format: int64
+          minimum: 0
+        outcome_count:
+          type: integer
+          format: int64
+          minimum: 0
+        reward_sum:
+          type: number
+          format: double
+          minimum: 0
+        average_reward:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+        ignored_count:
+          type: integer
+          format: int64
+          minimum: 0
+        clicked_count:
+          type: integer
+          format: int64
+          minimum: 0
+        converted_count:
+          type: integer
+          format: int64
+          minimum: 0
+        p50_policy_latency_micros:
+          type: [integer, "null"]
+          format: int64
+          minimum: 0
+        p95_policy_latency_micros:
+          type: [integer, "null"]
+          format: int64
+          minimum: 0
+        offer_performance:
+          type: array
+          items:
+            $ref: "#/components/schemas/OfferPerformance"
+        learning_series:
+          type: array
+          maxItems: 120
+          items:
+            $ref: "#/components/schemas/LearningSeriesPoint"
+        random_benchmark:
+          $ref: "#/components/schemas/SimulationBenchmark"
+        oracle_benchmark:
+          $ref: "#/components/schemas/SimulationBenchmark"
+        ope:
+          $ref: "#/components/schemas/OPEEstimate"
+        reasons:
+          type: object
+          additionalProperties:
+            type: string
+          propertyNames:
+            minLength: 1
+        generated_at:
+          $ref: "#/components/schemas/Timestamp"
+    SimulationRun:
+      type: object
+      additionalProperties: false
+      required:
+        - run_id
+        - experiment_id
+        - seed
+        - requests_per_second
+        - max_decisions
+        - status
+        - decision_count
+        - outcome_count
+        - error_count
+        - observed_reward_sum
+        - random_expected_reward_sum
+        - oracle_expected_reward_sum
+        - started_at
+        - stopped_at
+        - updated_at
+        - error_code
+        - error_detail
+      properties:
+        run_id:
+          $ref: "#/components/schemas/UUID"
+        experiment_id:
+          $ref: "#/components/schemas/UUID"
+        seed:
+          type: integer
+          format: int64
+        requests_per_second:
+          type: integer
+          minimum: 1
+          maximum: 100
+        max_decisions:
+          type: integer
+          minimum: 1
+          maximum: 100000
+        status:
+          $ref: "#/components/schemas/SimulationRunStatus"
+        decision_count:
+          type: integer
+          format: int64
+          minimum: 0
+        outcome_count:
+          type: integer
+          format: int64
+          minimum: 0
+        error_count:
+          type: integer
+          format: int64
+          minimum: 0
+        observed_reward_sum:
+          type: number
+          format: double
+          minimum: 0
+        random_expected_reward_sum:
+          type: number
+          format: double
+          minimum: 0
+        oracle_expected_reward_sum:
+          type: number
+          format: double
+          minimum: 0
+        started_at:
+          $ref: "#/components/schemas/Timestamp"
+        stopped_at:
+          anyOf:
+            - $ref: "#/components/schemas/Timestamp"
+            - type: "null"
+        updated_at:
+          $ref: "#/components/schemas/Timestamp"
+        error_code:
+          type: [string, "null"]
+        error_detail:
+          type: [string, "null"]
+    CreateDemoExperimentRequest:
+      oneOf:
+        - type: object
+          additionalProperties: false
+          required: [name, policy_kind]
+          properties:
+            name:
+              type: string
+              minLength: 1
+              maxLength: 200
+            policy_kind:
+              const: random
+        - type: object
+          additionalProperties: false
+          required: [name, policy_kind, epsilon]
+          properties:
+            name:
+              type: string
+              minLength: 1
+              maxLength: 200
+            policy_kind:
+              const: segmented_epsilon_greedy
+            epsilon:
+              type: number
+              minimum: 0
+              maximum: 1
+    CreateDecisionRequest:
+      type: object
+      additionalProperties: false
+      required: [experiment_id, context]
+      properties:
+        experiment_id:
+          $ref: "#/components/schemas/UUID"
+        context:
+          $ref: "#/components/schemas/SessionContext"
+    CreateOutcomeRequest:
+      type: object
+      additionalProperties: false
+      required: [event_id, decision_id, outcome, occurred_at]
+      properties:
+        event_id:
+          $ref: "#/components/schemas/UUID"
+        decision_id:
+          $ref: "#/components/schemas/UUID"
+        outcome:
+          $ref: "#/components/schemas/OutcomeKind"
+        occurred_at:
+          $ref: "#/components/schemas/Timestamp"
+    CreateSimulationRunRequest:
+      type: object
+      additionalProperties: false
+      required: [seed, requests_per_second, max_decisions]
+      properties:
+        seed:
+          type: integer
+          format: int64
+        requests_per_second:
+          type: integer
+          minimum: 1
+          maximum: 100
+        max_decisions:
+          type: integer
+          minimum: 1
+          maximum: 100000
+    Problem:
+      type: object
+      additionalProperties: false
+      required: [type, title, status, code, detail, request_id]
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+          minLength: 1
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+        code:
+          type: string
+          enum:
+            - malformed_json
+            - unknown_field
+            - multiple_json_values
+            - missing_field
+            - invalid_enum
+            - invalid_uuid
+            - invalid_timestamp
+            - invalid_context
+            - invalid_query
+            - unsupported_media_type
+            - request_too_large
+            - not_found
+            - experiment_not_running
+            - insufficient_offers
+            - outcome_already_recorded
+            - simulation_already_running
+            - policy_unhealthy
+            - database_unavailable
+            - request_timeout
+            - internal_error
+        detail:
+          type: string
+          minLength: 1
+        request_id:
+          type: string
+          minLength: 1

@@ -56,7 +56,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| A001 | `openapi/openapi.yaml` | [spec](file-specs/openapi/openapi.yaml.md) | `specified` |
+| A001 | `openapi/openapi.yaml` | [spec](file-specs/openapi/openapi.yaml.md) | `implemented` |
 | A002 | `internal/observability/observability.go` | [spec](file-specs/internal/observability/observability.go.md) | `specified` |
 | A009 | `internal/observability/observability_test.go` | [spec](file-specs/internal/observability/observability_test.go.md) | `specified` |
 | A003 | `internal/httpapi/dto.go` | [spec](file-specs/internal/httpapi/dto.go.md) | `specified` |
