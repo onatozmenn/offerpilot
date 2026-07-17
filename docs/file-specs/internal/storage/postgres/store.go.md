@@ -19,8 +19,8 @@ Own PostgreSQL pool lifecycle, migration execution, health checks, and transacti
 ## Required Behavior
 
 - Parse and validate the database URL through pgx config.
-- Configure bounded pool sizes/lifetimes and acquire timeout from config.
-- Consume the embedded migration filesystem from the root `migrations` Go package through Goose's provider API; do not use current-working-directory lookup or process-global mutable migration configuration.
+- Configure bounded pool sizes, lifetimes, idle time, and health-check period from config; honor caller context deadlines while acquiring connections.
+- Read the split up/down SQL bytes from the root `migrations` embedded filesystem and register them as one transaction-enabled migration through Goose's provider API; do not scan split files as duplicate versions, use current-working-directory lookup, or mutate Goose process globals.
 - Wrap transaction begin/rollback/commit with context and preserve root errors.
 - Expose no raw pool outside the package.
 
