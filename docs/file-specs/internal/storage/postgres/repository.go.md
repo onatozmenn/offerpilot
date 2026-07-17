@@ -21,7 +21,7 @@ Implement the service store port with explicit parameterized SQL and domain mapp
 - Use explicit column lists and parameterized queries.
 - Map nullable values intentionally and validate persisted JSON/domain projections. UUIDs use native PostgreSQL `UUID` parameters/columns with application-generated values.
 - Create experiment, offers, and the version-one policy snapshot transactionally; policy configuration is never updated in place.
-- Insert decisions atomically with immutable distributions.
+- Insert decisions atomically with immutable distributions and return feed projections with the historical selected offer plus optional terminal outcome in one bounded query.
 - Accept outcomes by locking the experiment then decision in one consistent order, distinguishing exact retry and competing event, incrementing `experiments.policy_version`, and reserving that consecutive applied version. Do not reject an older decision selection version.
 - Save snapshots idempotently for the same version/content and reject conflicts.
 - Persist simulation status, counters, and observed/random/oracle reward sums atomically; terminal status and final totals share one transaction.

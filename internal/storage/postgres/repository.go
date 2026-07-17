@@ -343,6 +343,57 @@ func (store *Store) ListDecisions(
 	return decisions, nil
 }
 
+func (store *Store) ListDecisionFeed(
+	ctx context.Context,
+	experimentID uuid.UUID,
+	cursor *service.DecisionCursor,
+	limit int,
+) ([]service.DecisionFeedRecord, error) {
+	if err := store.ensureOpen(); err != nil {
+		return nil, err
+	}
+	if limit < 1 || limit > 200 {
+		return nil, fmt.Errorf("decision feed limit must be between 1 and 200")
+	}
+
+	var rows pgx.Rows
+	var err error
+	if cursor == nil {
+		rows, err = store.pool.Query(ctx, decisionFeedSelect+`
+            WHERE d.experiment_id = $1
+            ORDER BY d.created_at DESC, d.id DESC
+            LIMIT $2
+        `, experimentID, limit)
+	} else {
+		if cursor.ID == uuid.Nil || cursor.CreatedAt.IsZero() {
+			return nil, fmt.Errorf("decision feed cursor is invalid")
+		}
+		rows, err = store.pool.Query(ctx, decisionFeedSelect+`
+            WHERE d.experiment_id = $1
+              AND (d.created_at, d.id) < ($2, $3)
+            ORDER BY d.created_at DESC, d.id DESC
+            LIMIT $4
+        `, experimentID, cursor.CreatedAt, cursor.ID, limit)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("list decision feed: %w", err)
+	}
+	defer rows.Close()
+
+	records := make([]service.DecisionFeedRecord, 0, limit)
+	for rows.Next() {
+		record, err := scanDecisionFeed(rows)
+		if err != nil {
+			return nil, fmt.Errorf("scan decision feed: %w", err)
+		}
+		records = append(records, record)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("iterate decision feed: %w", err)
+	}
+	return records, nil
+}
+
 func (store *Store) AcceptOutcome(
 	ctx context.Context,
 	experimentID uuid.UUID,
@@ -892,6 +943,22 @@ const decisionOutcomeSelect = `
     JOIN outcomes o ON o.decision_id = d.id
 `
 
+const decisionFeedSelect = `
+	SELECT
+		d.id, d.experiment_id, d.selected_offer_id,
+		d.context::text, d.segment_key, d.eligible_offer_ids,
+		d.distribution::text, d.propensity, d.policy_kind,
+		d.policy_version, d.policy_latency_micros,
+		d.simulation_run_id, d.request_id, d.created_at,
+		f.id, f.experiment_id, f.slug, f.merchant_name,
+		f.title, f.description, f.category, f.active,
+		o.event_id, o.decision_id, o.kind, o.reward,
+		o.occurred_at, o.received_at, o.applied_policy_version
+	FROM decisions d
+	JOIN offers f ON f.id = d.selected_offer_id
+	LEFT JOIN outcomes o ON o.decision_id = d.id
+`
+
 const simulationRunSelect = `
     SELECT
         id, experiment_id, seed, requests_per_second, max_decisions,
@@ -1073,6 +1140,93 @@ func scanDecisionOutcome(row rowScanner) (service.DecisionOutcome, error) {
 	record.Outcome.ReceivedAt = record.Outcome.ReceivedAt.UTC()
 	if err := domain.ValidateDecision(record.Decision); err != nil {
 		return service.DecisionOutcome{}, fmt.Errorf("validate persisted decision: %w", err)
+	}
+	return record, nil
+}
+
+func scanDecisionFeed(row rowScanner) (service.DecisionFeedRecord, error) {
+	var record service.DecisionFeedRecord
+	var contextJSON string
+	var distributionJSON string
+	var simulationRunID pgtype.UUID
+	var eventID pgtype.UUID
+	var outcomeDecisionID pgtype.UUID
+	var outcomeKind pgtype.Text
+	var reward pgtype.Float8
+	var occurredAt pgtype.Timestamptz
+	var receivedAt pgtype.Timestamptz
+	var appliedVersion pgtype.Int8
+	if err := row.Scan(
+		&record.Decision.ID,
+		&record.Decision.ExperimentID,
+		&record.Decision.SelectedOfferID,
+		&contextJSON,
+		&record.Decision.SegmentKey,
+		&record.Decision.EligibleOfferIDs,
+		&distributionJSON,
+		&record.Decision.Propensity,
+		&record.Decision.PolicyKind,
+		&record.Decision.PolicyVersion,
+		&record.Decision.PolicyLatencyMicros,
+		&simulationRunID,
+		&record.Decision.RequestID,
+		&record.Decision.CreatedAt,
+		&record.SelectedOffer.ID,
+		&record.SelectedOffer.ExperimentID,
+		&record.SelectedOffer.Slug,
+		&record.SelectedOffer.MerchantName,
+		&record.SelectedOffer.Title,
+		&record.SelectedOffer.Description,
+		&record.SelectedOffer.Category,
+		&record.SelectedOffer.Active,
+		&eventID,
+		&outcomeDecisionID,
+		&outcomeKind,
+		&reward,
+		&occurredAt,
+		&receivedAt,
+		&appliedVersion,
+	); err != nil {
+		return service.DecisionFeedRecord{}, err
+	}
+	if err := decodeStrictJSON([]byte(contextJSON), &record.Decision.Context); err != nil {
+		return service.DecisionFeedRecord{}, fmt.Errorf("decode decision context: %w", err)
+	}
+	if err := decodeStrictJSON([]byte(distributionJSON), &record.Decision.Distribution); err != nil {
+		return service.DecisionFeedRecord{}, fmt.Errorf("decode decision distribution: %w", err)
+	}
+	if simulationRunID.Valid {
+		value := uuid.UUID(simulationRunID.Bytes)
+		record.Decision.SimulationRunID = &value
+	}
+	record.Decision.CreatedAt = record.Decision.CreatedAt.UTC()
+	if err := domain.ValidateDecision(record.Decision); err != nil {
+		return service.DecisionFeedRecord{}, fmt.Errorf("validate persisted decision: %w", err)
+	}
+	if err := domain.ValidateOffer(record.SelectedOffer); err != nil {
+		return service.DecisionFeedRecord{}, fmt.Errorf("validate persisted selected offer: %w", err)
+	}
+	if record.SelectedOffer.ID != record.Decision.SelectedOfferID || record.SelectedOffer.ExperimentID != record.Decision.ExperimentID {
+		return service.DecisionFeedRecord{}, fmt.Errorf("selected offer projection does not match decision")
+	}
+	if eventID.Valid {
+		if !outcomeDecisionID.Valid || !outcomeKind.Valid || !reward.Valid || !occurredAt.Valid || !receivedAt.Valid || !appliedVersion.Valid {
+			return service.DecisionFeedRecord{}, fmt.Errorf("persisted outcome projection is incomplete")
+		}
+		outcome := domain.Outcome{
+			EventID:              uuid.UUID(eventID.Bytes),
+			DecisionID:           uuid.UUID(outcomeDecisionID.Bytes),
+			Kind:                 domain.OutcomeKind(outcomeKind.String),
+			Reward:               reward.Float64,
+			OccurredAt:           occurredAt.Time.UTC(),
+			ReceivedAt:           receivedAt.Time.UTC(),
+			AppliedPolicyVersion: appliedVersion.Int64,
+		}
+		expectedReward, err := domain.RewardForOutcome(outcome.Kind)
+		if err != nil || outcome.Reward != expectedReward || outcome.DecisionID != record.Decision.ID || outcome.AppliedPolicyVersion < 1 {
+			return service.DecisionFeedRecord{}, fmt.Errorf("persisted outcome projection is invalid")
+		}
+		record.Outcome = &outcome
 	}
 	return record, nil
 }

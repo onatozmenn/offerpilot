@@ -50,6 +50,12 @@ type DecisionOutcome struct {
 	Outcome  domain.Outcome
 }
 
+type DecisionFeedRecord struct {
+	Decision      domain.Decision
+	SelectedOffer domain.Offer
+	Outcome       *domain.Outcome
+}
+
 type SummaryAggregate struct {
 	DecisionCount          int64
 	OutcomeCount           int64
@@ -90,6 +96,7 @@ type Store interface {
 	InsertDecision(context.Context, domain.Decision) error
 	GetDecision(context.Context, uuid.UUID) (domain.Decision, error)
 	ListDecisions(context.Context, uuid.UUID, *DecisionCursor, int) ([]domain.Decision, error)
+	ListDecisionFeed(context.Context, uuid.UUID, *DecisionCursor, int) ([]DecisionFeedRecord, error)
 
 	AcceptOutcome(context.Context, uuid.UUID, domain.Outcome) (OutcomeAcceptance, error)
 	SavePolicySnapshot(context.Context, domain.PolicySnapshot) error
@@ -276,6 +283,21 @@ func (engine *Engine) GetExperiment(ctx context.Context, experimentID uuid.UUID)
 	return engine.store.GetExperiment(ctx, experimentID)
 }
 
+func (engine *Engine) GetExperimentDetail(
+	ctx context.Context,
+	experimentID uuid.UUID,
+) (domain.Experiment, []domain.Offer, error) {
+	experiment, err := engine.store.GetExperiment(ctx, experimentID)
+	if err != nil {
+		return domain.Experiment{}, nil, err
+	}
+	offers, err := engine.store.ListActiveOffers(ctx, experimentID)
+	if err != nil {
+		return domain.Experiment{}, nil, fmt.Errorf("load active offers: %w", err)
+	}
+	return experiment, offers, nil
+}
+
 func (engine *Engine) ListExperiments(
 	ctx context.Context,
 	cursor *ExperimentCursor,
@@ -380,6 +402,15 @@ func (engine *Engine) ListDecisions(
 	limit int,
 ) ([]domain.Decision, error) {
 	return engine.store.ListDecisions(ctx, experimentID, cursor, limit)
+}
+
+func (engine *Engine) ListDecisionFeed(
+	ctx context.Context,
+	experimentID uuid.UUID,
+	cursor *DecisionCursor,
+	limit int,
+) ([]DecisionFeedRecord, error) {
+	return engine.store.ListDecisionFeed(ctx, experimentID, cursor, limit)
 }
 
 func (engine *Engine) RecordOutcome(

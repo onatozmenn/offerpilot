@@ -240,6 +240,26 @@ func TestStore_DecisionMappingAndFeed(t *testing.T) {
 	if len(remaining) != 1 || remaining[0].ID != first.ID {
 		t.Fatalf("second decision page = %#v", remaining)
 	}
+
+	feed, err := store.ListDecisionFeed(context.Background(), experiment.ID, nil, 3)
+	if err != nil {
+		t.Fatalf("ListDecisionFeed(before outcome): %v", err)
+	}
+	if len(feed) != 3 || feed[0].Decision.ID != third.ID || feed[0].SelectedOffer.ID != third.SelectedOfferID || feed[0].Outcome != nil {
+		t.Fatalf("decision feed before outcome = %#v", feed)
+	}
+	outcome := testOutcome(20, second.ID, second.CreatedAt.Add(time.Second), domain.OutcomeKindClicked)
+	acceptance, err := store.AcceptOutcome(context.Background(), experiment.ID, outcome)
+	if err != nil || acceptance.Status != service.OutcomeAcceptanceCreated {
+		t.Fatalf("AcceptOutcome(feed) = %#v, error = %v", acceptance, err)
+	}
+	feed, err = store.ListDecisionFeed(context.Background(), experiment.ID, nil, 3)
+	if err != nil {
+		t.Fatalf("ListDecisionFeed(after outcome): %v", err)
+	}
+	if feed[1].Decision.ID != second.ID || feed[1].Outcome == nil || feed[1].Outcome.Kind != domain.OutcomeKindClicked || feed[1].Outcome.AppliedPolicyVersion != 2 {
+		t.Fatalf("decision feed after outcome = %#v", feed)
+	}
 }
 
 func TestStore_OutcomeIdempotencyAndConcurrentVersions(t *testing.T) {
