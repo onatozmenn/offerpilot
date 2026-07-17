@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -37,6 +37,6 @@ Show recent decisions and outcomes as a compact auditable stream.
 
 ## Completion Checklist
 
-- [ ] Audit fields are clear and bounded.
-- [ ] Pending and terminal states differ.
-- [ ] Large feeds remain controlled.
+- [x] Audit fields are clear and bounded.
+- [x] Pending and terminal states differ.
+- [x] Large feeds remain controlled.

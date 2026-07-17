@@ -21,6 +21,7 @@ Define the frontend package, scripts, runtime dependencies, and development tool
 
 - Mark package private and use ESM.
 - Include React, Recharts, Lucide React, and locally packaged IBM Plex Sans/Mono fonts as runtime dependencies.
+- Pin a React 19-compatible Recharts release whose published declarations pass strict typechecking without `skipLibCheck`.
 - Include Vite, TypeScript, `@types/node`, ESLint flat-config plugins, Vitest, jsdom, and Testing Library as development dependencies.
 - Pin compatible versions through `package-lock.json`; do not use runtime wildcard ranges.
 

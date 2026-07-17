@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -37,6 +37,6 @@ Visualize observed cumulative-average reward against clearly labeled synthetic r
 
 ## Completion Checklist
 
-- [ ] Observed and synthetic series are unmistakable.
-- [ ] Missing/empty/error states are implemented.
-- [ ] Chart and text summary are accessible.
+- [x] Observed and synthetic series are unmistakable.
+- [x] Missing/empty/error states are implemented.
+- [x] Chart and text summary are accessible.

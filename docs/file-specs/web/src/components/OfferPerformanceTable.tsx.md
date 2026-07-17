@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -37,6 +37,6 @@ Present per-offer selection, outcome, empirical mean, and current probability da
 
 ## Completion Checklist
 
-- [ ] Semantic columns and null reasons render correctly.
-- [ ] Mobile overflow remains usable.
-- [ ] No aggregate math occurs locally.
+- [x] Semantic columns and null reasons render correctly.
+- [x] Mobile overflow remains usable.
+- [x] No aggregate math occurs locally.
