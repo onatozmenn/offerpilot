@@ -15,7 +15,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | F005 | `.golangci.yml` | [spec](file-specs/.golangci.yml.md) | `validated` |
 | F006 | `scripts/validate-docs.ps1` | [spec](file-specs/scripts/validate-docs.ps1.md) | `validated` |
 | F007 | `web/package.json` | [spec](file-specs/web/package.json.md) | `validated` |
-| F008 | `web/tsconfig.json` | [spec](file-specs/web/tsconfig.json.md) | `specified` |
+| F008 | `web/tsconfig.json` | [spec](file-specs/web/tsconfig.json.md) | `validated` |
 | F009 | `web/vite.config.ts` | [spec](file-specs/web/vite.config.ts.md) | `specified` |
 | F010 | `web/eslint.config.js` | [spec](file-specs/web/eslint.config.js.md) | `specified` |
 | F011 | `web/index.html` | [spec](file-specs/web/index.html.md) | `specified` |
