@@ -48,7 +48,7 @@ Only coarse, synthetic, session-level features are allowed:
 
 - Device class: `mobile`, `desktop`, or `tablet`.
 - Daypart: `morning`, `afternoon`, `evening`, or `night`.
-- Category affinity: one of the configured fictional offer categories.
+- Category affinity: `travel`, `dining`, `wellness`, `home`, `technology`, or `entertainment`.
 - Visitor type: `new` or `returning`.
 
 No stable user identifier is required. The combination forms a deterministic segment key for the MVP policy.

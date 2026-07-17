@@ -29,7 +29,7 @@ Required fields:
 - Stable slug.
 - Fictional merchant name.
 - Title and short description.
-- Category.
+- Category: `travel`, `dining`, `wellness`, `home`, `technology`, or `entertainment`.
 - Active flag.
 
 An experiment needs at least two active offers. Offer slugs are unique within an experiment. An inactive offer cannot be selected but remains attached to historical decisions.
@@ -40,7 +40,7 @@ The context is an immutable value object containing only documented enum values:
 
 - Device class.
 - Daypart.
-- Category affinity.
+- Category affinity using the same closed category set as offers.
 - Visitor type.
 
 The canonical segment key joins normalized values in a fixed documented order. Unknown or missing values are rejected instead of silently assigned to a default segment.

@@ -18,7 +18,7 @@ Define and create the versioned fictional OfferPilot demo experiment and offer c
 
 ## Required Behavior
 
-- Define six clearly fictional merchants across stable categories with no copied logos, claims, or trademarks.
+- Define six clearly fictional merchants, one in each approved category, with no copied logos, claims, or trademarks.
 - Ensure one initial stopped/running-ready demo exists idempotently at startup.
 - Create fresh experiments with unique IDs/slugs while retaining template version metadata.
 - Validate the complete template through domain validation before persistence.
