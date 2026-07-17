@@ -344,12 +344,14 @@ func TestProblems_Mapping(t *testing.T) {
 
 func TestHandlers_DTOCopiesAndServerSettings(t *testing.T) {
 	average := 0.5
+	engagement := 0.75
 	reason := "not_simulated"
 	summary := service.Summary{
 		ExperimentID:     testUUID(800),
 		PolicyKind:       domain.PolicyKindRandom,
 		PolicyVersion:    1,
 		AverageReward:    &average,
+		EngagementRate:   &engagement,
 		OfferPerformance: []service.OfferPerformance{{Offer: testOffer(testUUID(801), testUUID(800), "offer-copy")}},
 		LearningSeries:   []domain.LearningSeriesPoint{{Timestamp: testNow(), SampleCount: 1, CumulativeAverageReward: 0.5}},
 		RandomBenchmark:  domain.BenchmarkReference{Kind: domain.BenchmarkKindRandom, Reason: reason, SimulationOnly: true},
@@ -360,10 +362,11 @@ func TestHandlers_DTOCopiesAndServerSettings(t *testing.T) {
 	}
 	dto := newSummaryDTO(summary)
 	*dto.AverageReward = 0.9
+	*dto.EngagementRate = 0.1
 	dto.OfferPerformance[0].Offer.Slug = "changed"
 	dto.LearningSeries[0].SampleCount = 99
 	dto.Reasons["average_reward"] = "changed"
-	if *summary.AverageReward != 0.5 || summary.OfferPerformance[0].Offer.Slug != "offer-copy" || summary.LearningSeries[0].SampleCount != 1 || summary.Reasons["average_reward"] != "no_outcomes" {
+	if *summary.AverageReward != 0.5 || *summary.EngagementRate != 0.75 || summary.OfferPerformance[0].Offer.Slug != "offer-copy" || summary.LearningSeries[0].SampleCount != 1 || summary.Reasons["average_reward"] != "no_outcomes" {
 		t.Fatalf("DTO mutation changed service projection: %#v", summary)
 	}
 
@@ -408,7 +411,7 @@ func newHTTPFixture(t *testing.T, timeout time.Duration) *httpFixture {
 	summary := service.Summary{
 		ExperimentID: experimentID, PolicyKind: domain.PolicyKindRandom, PolicyVersion: 1,
 		DecisionCount: 1, OutcomeCount: 1, RewardSum: 0.25,
-		AverageReward: floatPointer(0.25), ClickedCount: 1,
+		AverageReward: floatPointer(0.25), EngagementRate: floatPointer(1), ClickedCount: 1,
 		P50PolicyLatencyMicros: int64Pointer(42), P95PolicyLatencyMicros: int64Pointer(42),
 		OfferPerformance: []service.OfferPerformance{{Offer: offers[0], SelectionCount: 1, OutcomeCount: 1, ClickedCount: 1, RewardSum: 0.25, EmpiricalMean: floatPointer(0.25), CurrentProbability: floatPointer(0.5)}},
 		LearningSeries:   []domain.LearningSeriesPoint{{Timestamp: outcome.ReceivedAt, SampleCount: 1, CumulativeAverageReward: 0.25}},

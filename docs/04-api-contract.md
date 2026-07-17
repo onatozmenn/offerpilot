@@ -68,7 +68,7 @@ Returns experiment configuration, active fictional offers, current policy versio
 
 ### `GET /v1/experiments/{experiment_id}/summary`
 
-Returns aggregate counts, reward, outcome rates, offer selection distribution, current empirical means, policy version, p50/p95 policy-selection latency, simulation-only random/oracle benchmarks when available, a bounded cumulative-average learning series, and IPS/SNIPS estimates when enough valid logged data exists.
+Returns aggregate counts, reward, outcome rates, offer selection distribution, current empirical means, policy version, p50/p95 policy-selection latency, simulation-only random/oracle benchmarks when available, a bounded cumulative-average learning series, and IPS/SNIPS estimates when enough valid logged data exists. The engagement-rate proxy is the persisted terminal outcomes classified as clicked or converted divided by all terminal outcomes; it is `null` with reason `no_outcomes` before the first outcome.
 
 Each learning-series point contains a UTC bucket timestamp, cumulative sample count, and cumulative observed average reward. Random and oracle expected-average references are returned separately from the series and rendered as horizontal simulation-only references. The default maximum is 120 points; the server downsamples deterministically when needed.
 

@@ -19,6 +19,7 @@ Assemble experiment dashboard summaries from persisted aggregates, policy view, 
 ## Required Behavior
 
 - Query persisted counts, rewards, outcomes, policy-selection latencies, a deterministic maximum-120-point cumulative-average series, offer statistics, simulation benchmark sums, and logged OPE records.
+- Project the nullable engagement-rate proxy from persisted clicked plus converted counts divided by terminal outcomes; return `no_outcomes` when unavailable.
 - Add current empirical means/probabilities without mutating policy state.
 - Return unavailable metrics as nil values with stable reasons such as `insufficient_samples` or `not_simulated`.
 - Divide persisted simulation expected-reward sums by their contributing decision count to return random/oracle expected-average horizontal references; distinguish them from observed metrics and return `not_simulated` when absent.

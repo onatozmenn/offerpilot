@@ -165,6 +165,7 @@ export interface ExperimentSummary {
   outcome_count: number;
   reward_sum: number;
   average_reward: number | null;
+  engagement_rate: number | null;
   ignored_count: number;
   clicked_count: number;
   converted_count: number;

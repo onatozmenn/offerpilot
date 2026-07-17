@@ -247,7 +247,7 @@ func TestEngine_SummaryPersistsNullReasonsAndOPE(t *testing.T) {
 	store.summary = SummaryAggregate{
 		DecisionCount:  10,
 		OutcomeCount:   10,
-		RewardSum:      5,
+		RewardSum:      4,
 		IgnoredCount:   5,
 		ConvertedCount: 5,
 	}
@@ -283,7 +283,7 @@ func TestEngine_SummaryPersistsNullReasonsAndOPE(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Summary: %v", err)
 	}
-	if summary.AverageReward == nil || *summary.AverageReward != 0.5 || summary.OPE.IPS == nil || summary.OPE.SNIPS == nil || summary.OPE.Reason != "" {
+	if summary.AverageReward == nil || *summary.AverageReward != 0.4 || summary.EngagementRate == nil || *summary.EngagementRate != 0.5 || summary.OPE.IPS == nil || summary.OPE.SNIPS == nil || summary.OPE.Reason != "" {
 		t.Fatalf("summary estimates = %#v", summary)
 	}
 	if summary.RandomBenchmark.ExpectedAverageReward == nil || *summary.RandomBenchmark.ExpectedAverageReward != 0.4 || summary.OracleBenchmark.ExpectedAverageReward == nil || *summary.OracleBenchmark.ExpectedAverageReward != 0.7 {
@@ -302,7 +302,7 @@ func TestEngine_SummaryPersistsNullReasonsAndOPE(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Summary(empty): %v", err)
 	}
-	if empty.AverageReward != nil || empty.RandomBenchmark.ExpectedAverageReward != nil || empty.OPE.IPS != nil || empty.Reasons["average_reward"] != "no_outcomes" || empty.Reasons["random_benchmark"] != "not_simulated" || empty.Reasons["ope"] != "no_samples" {
+	if empty.AverageReward != nil || empty.EngagementRate != nil || empty.RandomBenchmark.ExpectedAverageReward != nil || empty.OPE.IPS != nil || empty.Reasons["average_reward"] != "no_outcomes" || empty.Reasons["engagement_rate"] != "no_outcomes" || empty.Reasons["random_benchmark"] != "not_simulated" || empty.Reasons["ope"] != "no_samples" {
 		t.Fatalf("empty summary = %#v", empty)
 	}
 }

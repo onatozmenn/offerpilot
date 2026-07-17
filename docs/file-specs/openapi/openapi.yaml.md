@@ -24,6 +24,7 @@ Provide the machine-readable OfferPilot HTTP contract.
 - Set `additionalProperties: false` on write request objects.
 - Do not expose `simulation_run_id` on the public decision request; reject it as an unknown field.
 - Represent unavailable summary metrics and simulation-only random/oracle expected-average references as nullable values plus reason codes.
+- Define the persisted terminal-outcome engagement-rate proxy as a required nullable summary field.
 - Constrain the learning series to at most 120 ordered points and make its cumulative sample/average semantics explicit.
 - Keep operation IDs stable for future client generation.
 

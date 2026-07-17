@@ -47,6 +47,7 @@ type Summary struct {
 	OutcomeCount           int64
 	RewardSum              float64
 	AverageReward          *float64
+	EngagementRate         *float64
 	IgnoredCount           int64
 	ClickedCount           int64
 	ConvertedCount         int64
@@ -103,11 +104,15 @@ func (engine *Engine) Summary(
 
 	reasons := make(map[string]string)
 	var averageReward *float64
+	var engagementRate *float64
 	if aggregate.OutcomeCount == 0 {
 		reasons["average_reward"] = "no_outcomes"
+		reasons["engagement_rate"] = "no_outcomes"
 	} else {
-		value := aggregate.RewardSum / float64(aggregate.OutcomeCount)
-		averageReward = &value
+		averageValue := aggregate.RewardSum / float64(aggregate.OutcomeCount)
+		engagementValue := float64(aggregate.ClickedCount+aggregate.ConvertedCount) / float64(aggregate.OutcomeCount)
+		averageReward = &averageValue
+		engagementRate = &engagementValue
 	}
 	offerPerformance := make([]OfferPerformance, len(performanceRecords))
 	for index, record := range performanceRecords {
@@ -159,6 +164,7 @@ func (engine *Engine) Summary(
 		OutcomeCount:           aggregate.OutcomeCount,
 		RewardSum:              aggregate.RewardSum,
 		AverageReward:          averageReward,
+		EngagementRate:         engagementRate,
 		IgnoredCount:           aggregate.IgnoredCount,
 		ClickedCount:           aggregate.ClickedCount,
 		ConvertedCount:         aggregate.ConvertedCount,

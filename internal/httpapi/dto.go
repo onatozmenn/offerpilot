@@ -190,6 +190,7 @@ type experimentSummaryDTO struct {
 	OutcomeCount           int64                    `json:"outcome_count"`
 	RewardSum              float64                  `json:"reward_sum"`
 	AverageReward          *float64                 `json:"average_reward"`
+	EngagementRate         *float64                 `json:"engagement_rate"`
 	IgnoredCount           int64                    `json:"ignored_count"`
 	ClickedCount           int64                    `json:"clicked_count"`
 	ConvertedCount         int64                    `json:"converted_count"`
@@ -342,6 +343,7 @@ func newSummaryDTO(summary service.Summary) experimentSummaryDTO {
 		OutcomeCount:           summary.OutcomeCount,
 		RewardSum:              summary.RewardSum,
 		AverageReward:          cloneFloat(summary.AverageReward),
+		EngagementRate:         cloneFloat(summary.EngagementRate),
 		IgnoredCount:           summary.IgnoredCount,
 		ClickedCount:           summary.ClickedCount,
 		ConvertedCount:         summary.ConvertedCount,

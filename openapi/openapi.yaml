@@ -984,6 +984,7 @@ components:
         - outcome_count
         - reward_sum
         - average_reward
+        - engagement_rate
         - ignored_count
         - clicked_count
         - converted_count
@@ -1025,6 +1026,11 @@ components:
           type: [number, "null"]
           minimum: 0
           maximum: 1
+        engagement_rate:
+          type: [number, "null"]
+          minimum: 0
+          maximum: 1
+          description: Fraction of terminal outcomes classified as clicked or converted; null when no outcomes exist.
         ignored_count:
           type: integer
           format: int64
