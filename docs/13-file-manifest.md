@@ -86,8 +86,8 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | W001 | `web/src/types/api.ts` | [spec](file-specs/web/src/types/api.ts.md) | `validated` |
 | W002 | `web/src/api/client.ts` | [spec](file-specs/web/src/api/client.ts.md) | `validated` |
 | W003 | `web/src/hooks/useDashboard.ts` | [spec](file-specs/web/src/hooks/useDashboard.ts.md) | `validated` |
-| W004 | `web/src/components/MetricStrip.tsx` | [spec](file-specs/web/src/components/MetricStrip.tsx.md) | `specified` |
-| W005 | `web/src/components/SimulationControls.tsx` | [spec](file-specs/web/src/components/SimulationControls.tsx.md) | `specified` |
+| W004 | `web/src/components/MetricStrip.tsx` | [spec](file-specs/web/src/components/MetricStrip.tsx.md) | `validated` |
+| W005 | `web/src/components/SimulationControls.tsx` | [spec](file-specs/web/src/components/SimulationControls.tsx.md) | `validated` |
 | W006 | `web/src/components/LearningChart.tsx` | [spec](file-specs/web/src/components/LearningChart.tsx.md) | `specified` |
 | W007 | `web/src/components/OfferPerformanceTable.tsx` | [spec](file-specs/web/src/components/OfferPerformanceTable.tsx.md) | `specified` |
 | W008 | `web/src/components/DecisionFeed.tsx` | [spec](file-specs/web/src/components/DecisionFeed.tsx.md) | `specified` |

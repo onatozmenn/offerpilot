@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -37,6 +37,6 @@ Render stable, accessible headline experiment metrics without recomputation.
 
 ## Completion Checklist
 
-- [ ] Null and stale semantics are visible/accessibly named.
-- [ ] Dimensions remain stable.
-- [ ] No metric math occurs locally.
+- [x] Null and stale semantics are visible/accessibly named.
+- [x] Dimensions remain stable.
+- [x] No metric math occurs locally.

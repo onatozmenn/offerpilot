@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -38,6 +38,6 @@ Render validated seed/rate/count inputs and start/stop commands for one simulati
 
 ## Completion Checklist
 
-- [ ] Inputs and commands are accessible and bounded.
-- [ ] Duplicate actions are prevented.
-- [ ] Running/stopping states are stable.
+- [x] Inputs and commands are accessible and bounded.
+- [x] Duplicate actions are prevented.
+- [x] Running/stopping states are stable.
