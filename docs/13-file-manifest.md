@@ -34,8 +34,8 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | C007 | `internal/bandit/random_test.go` | [spec](file-specs/internal/bandit/random_test.go.md) | `validated` |
 | C008 | `internal/bandit/epsilon_greedy.go` | [spec](file-specs/internal/bandit/epsilon_greedy.go.md) | `validated` |
 | C009 | `internal/bandit/epsilon_greedy_test.go` | [spec](file-specs/internal/bandit/epsilon_greedy_test.go.md) | `validated` |
-| C010 | `internal/evaluation/ope.go` | [spec](file-specs/internal/evaluation/ope.go.md) | `specified` |
-| C011 | `internal/evaluation/ope_test.go` | [spec](file-specs/internal/evaluation/ope_test.go.md) | `specified` |
+| C010 | `internal/evaluation/ope.go` | [spec](file-specs/internal/evaluation/ope.go.md) | `validated` |
+| C011 | `internal/evaluation/ope_test.go` | [spec](file-specs/internal/evaluation/ope_test.go.md) | `validated` |
 
 ## Phase 3: Persistence And Services
 
