@@ -26,9 +26,9 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | --- | --- | --- | --- |
 | C001 | `internal/config/config.go` | [spec](file-specs/internal/config/config.go.md) | `validated` |
 | C012 | `internal/config/config_test.go` | [spec](file-specs/internal/config/config_test.go.md) | `validated` |
-| C002 | `internal/domain/model.go` | [spec](file-specs/internal/domain/model.go.md) | `specified` |
-| C003 | `internal/domain/validate.go` | [spec](file-specs/internal/domain/validate.go.md) | `specified` |
-| C004 | `internal/domain/validate_test.go` | [spec](file-specs/internal/domain/validate_test.go.md) | `specified` |
+| C002 | `internal/domain/model.go` | [spec](file-specs/internal/domain/model.go.md) | `validated` |
+| C003 | `internal/domain/validate.go` | [spec](file-specs/internal/domain/validate.go.md) | `validated` |
+| C004 | `internal/domain/validate_test.go` | [spec](file-specs/internal/domain/validate_test.go.md) | `validated` |
 | C005 | `internal/bandit/policy.go` | [spec](file-specs/internal/bandit/policy.go.md) | `specified` |
 | C006 | `internal/bandit/random.go` | [spec](file-specs/internal/bandit/random.go.md) | `specified` |
 | C007 | `internal/bandit/random_test.go` | [spec](file-specs/internal/bandit/random_test.go.md) | `specified` |
