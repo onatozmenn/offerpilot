@@ -86,7 +86,7 @@ describe("OfferPilot dashboard", () => {
     render(<App />);
 
     await screen.findByRole("heading", { name: experimentA.name });
-    expect(screen.getByText("API ready")).toBeInTheDocument();
+    expect(screen.getByRole("status", { name: "API ready" })).toBeInTheDocument();
 
     const metrics = requireElement(screen.getByRole("heading", { name: "Headline metrics" }).closest("section"));
     expect(await within(metrics).findByText("1,250")).toBeInTheDocument();

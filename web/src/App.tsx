@@ -1,4 +1,4 @@
-import { Activity, CircleAlert, CircleCheck, Plus, RefreshCw, X } from "lucide-react";
+import { Activity, CircleAlert, Plus, RefreshCw, X } from "lucide-react";
 import { lazy, Suspense, useState } from "react";
 import type { FormEvent } from "react";
 
@@ -203,9 +203,6 @@ export default function App() {
                   <h2 id="simulation-controls-title">{dashboard.selectedExperiment.name}</h2>
                 </div>
                 <div className="experiment-context__meta">
-                  <span className={`status-label status-label--${dashboard.selectedExperiment.status}`}>
-                    {humanize(dashboard.selectedExperiment.status)}
-                  </span>
                   <span>{humanize(dashboard.selectedExperiment.policy_kind)}</span>
                   <span>Policy v{dashboard.selectedExperiment.policy_version}</span>
                   {dashboard.experimentDetail === null ? null : <span>{dashboard.experimentDetail.offers.length} offers</span>}
@@ -305,12 +302,7 @@ function HealthStatus({ status, ready }: { status: PanelStatus; ready: boolean }
       : status === "stale"
         ? "API health stale"
         : "API not ready";
-  return (
-    <span className={`health-status health-status--${ready ? "ready" : status}`} role="status" title={label}>
-      {ready ? <CircleCheck size={16} aria-hidden="true" /> : <CircleAlert size={16} aria-hidden="true" />}
-      {label}
-    </span>
-  );
+  return <span className="sr-only" role="status" aria-label={label} aria-live="polite">{label}</span>;
 }
 
 function LearningChartFallback() {
