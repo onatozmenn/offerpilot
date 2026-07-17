@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -40,6 +40,6 @@ Run deterministic backend, frontend, documentation, security, and container chec
 
 ## Completion Checklist
 
-- [ ] Least-privilege workflow is valid.
-- [ ] All required gates run.
-- [ ] No deployment credentials are required.
+- [x] Least-privilege workflow is valid.
+- [x] All required gates run.
+- [x] No deployment credentials are required.

@@ -17,3 +17,7 @@ linters:
     - unconvert
   exclusions:
     generated: strict
+    paths:
+      - ^web/node_modules/
+      - ^web/dist/
+      - ^web/coverage/

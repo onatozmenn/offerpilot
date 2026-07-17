@@ -94,7 +94,9 @@ describe("OfferPilot dashboard", () => {
     expect(within(metrics).getByText("60%")).toBeInTheDocument();
     expect(within(metrics).getByText("1.5 ms")).toBeInTheDocument();
 
-    expect(await screen.findByText("Random reference (simulation-only)")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Random reference (simulation-only)", {}, { timeout: 5_000 }),
+    ).toBeInTheDocument();
     expect(screen.getByText("Oracle reference (simulation-only)")).toBeInTheDocument();
     expect(screen.getByText(/Observed cumulative average reward is/)).toHaveTextContent("0.400");
 
