@@ -1,0 +1,19 @@
+-- +goose Down
+DROP INDEX policy_snapshots_experiment_version_desc_idx;
+DROP INDEX outcomes_received_decision_idx;
+DROP INDEX outcomes_applied_policy_version_idx;
+DROP INDEX decisions_simulation_run_created_idx;
+DROP INDEX decisions_experiment_created_id_idx;
+DROP INDEX simulation_runs_status_updated_idx;
+DROP INDEX simulation_runs_experiment_started_id_idx;
+DROP INDEX simulation_runs_one_active_per_experiment_idx;
+DROP INDEX offers_experiment_active_id_idx;
+DROP INDEX experiments_created_at_id_idx;
+DROP INDEX experiments_status_id_idx;
+
+DROP TABLE outcomes;
+DROP TABLE decisions;
+DROP TABLE policy_snapshots;
+DROP TABLE simulation_runs;
+DROP TABLE offers;
+DROP TABLE experiments;
