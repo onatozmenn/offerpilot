@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -38,6 +38,6 @@ Coordinate experiment selection, polling, stale data, and simulation commands fo
 
 ## Completion Checklist
 
-- [ ] Polling and abort lifecycle are deterministic.
-- [ ] Partial/stale states preserve useful data.
-- [ ] Commands cannot double-submit.
+- [x] Polling and abort lifecycle are deterministic.
+- [x] Partial/stale states preserve useful data.
+- [x] Commands cannot double-submit.
