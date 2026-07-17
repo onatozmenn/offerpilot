@@ -70,11 +70,11 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| S001 | `internal/simulation/profiles.go` | [spec](file-specs/internal/simulation/profiles.go.md) | `specified` |
-| S002 | `internal/simulation/runner.go` | [spec](file-specs/internal/simulation/runner.go.md) | `specified` |
-| S003 | `internal/simulation/http_client.go` | [spec](file-specs/internal/simulation/http_client.go.md) | `specified` |
-| S004 | `internal/simulation/manager.go` | [spec](file-specs/internal/simulation/manager.go.md) | `specified` |
-| S005 | `internal/simulation/runner_test.go` | [spec](file-specs/internal/simulation/runner_test.go.md) | `specified` |
+| S001 | `internal/simulation/profiles.go` | [spec](file-specs/internal/simulation/profiles.go.md) | `validated` |
+| S002 | `internal/simulation/runner.go` | [spec](file-specs/internal/simulation/runner.go.md) | `validated` |
+| S003 | `internal/simulation/http_client.go` | [spec](file-specs/internal/simulation/http_client.go.md) | `validated` |
+| S004 | `internal/simulation/manager.go` | [spec](file-specs/internal/simulation/manager.go.md) | `validated` |
+| S005 | `internal/simulation/runner_test.go` | [spec](file-specs/internal/simulation/runner_test.go.md) | `validated` |
 | S006 | `internal/bootstrap/demo.go` | [spec](file-specs/internal/bootstrap/demo.go.md) | `specified` |
 | S007 | `internal/bootstrap/demo_test.go` | [spec](file-specs/internal/bootstrap/demo_test.go.md) | `specified` |
 | S008 | `cmd/simulator/main.go` | [spec](file-specs/cmd/simulator/main.go.md) | `specified` |
