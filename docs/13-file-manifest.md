@@ -17,7 +17,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | F007 | `web/package.json` | [spec](file-specs/web/package.json.md) | `validated` |
 | F008 | `web/tsconfig.json` | [spec](file-specs/web/tsconfig.json.md) | `validated` |
 | F009 | `web/vite.config.ts` | [spec](file-specs/web/vite.config.ts.md) | `validated` |
-| F010 | `web/eslint.config.js` | [spec](file-specs/web/eslint.config.js.md) | `specified` |
+| F010 | `web/eslint.config.js` | [spec](file-specs/web/eslint.config.js.md) | `validated` |
 | F011 | `web/index.html` | [spec](file-specs/web/index.html.md) | `specified` |
 
 ## Phase 2: Domain And Learning Core
