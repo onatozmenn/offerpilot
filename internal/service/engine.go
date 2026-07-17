@@ -520,6 +520,19 @@ func (engine *Engine) IsHealthy(experimentID uuid.UUID) bool {
 	return loaded && !unhealthy
 }
 
+func (engine *Engine) Ready(ctx context.Context) error {
+	experiments, err := engine.store.ListActiveExperiments(ctx)
+	if err != nil {
+		return fmt.Errorf("list active experiments for readiness: %w", err)
+	}
+	for _, experiment := range experiments {
+		if !engine.IsHealthy(experiment.ID) {
+			return fmt.Errorf("%w: experiment %s", ErrPolicyUnhealthy, experiment.ID)
+		}
+	}
+	return nil
+}
+
 func (engine *Engine) Close() error {
 	engine.mu.Lock()
 	defer engine.mu.Unlock()

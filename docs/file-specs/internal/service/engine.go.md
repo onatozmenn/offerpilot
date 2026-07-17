@@ -27,6 +27,7 @@ Own experiment, decision, and outcome use cases plus in-memory policy ownership.
 - Serialize outcome accept/update/snapshot per experiment. Storage locks the experiment and reserves the next consecutive applied version; delayed feedback from an older decision selection version remains valid.
 - Return exact retries without another update; reject competing terminal outcomes.
 - Advance every policy kind, including random, to the reserved version; save the updated snapshot and mark policy health; expose unhealthy state to readiness.
+- Report readiness only when every active persisted experiment has a loaded healthy policy.
 - Honor context cancellation on all storage calls.
 
 ## Failure Cases

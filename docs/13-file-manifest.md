@@ -64,7 +64,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | A005 | `internal/httpapi/handlers.go` | [spec](file-specs/internal/httpapi/handlers.go.md) | `validated` |
 | A006 | `internal/httpapi/router.go` | [spec](file-specs/internal/httpapi/router.go.md) | `validated` |
 | A007 | `internal/httpapi/handlers_test.go` | [spec](file-specs/internal/httpapi/handlers_test.go.md) | `validated` |
-| A008 | `cmd/api/main.go` | [spec](file-specs/cmd/api/main.go.md) | `specified` |
+| A008 | `cmd/api/main.go` | [spec](file-specs/cmd/api/main.go.md) | `validated` |
 
 ## Phase 5: Simulation And Demo
 

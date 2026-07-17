@@ -222,6 +222,24 @@ func TestEngine_SnapshotFailureMarksPolicyUnhealthy(t *testing.T) {
 	}
 }
 
+func TestEngine_ReadinessRequiresEveryActivePolicy(t *testing.T) {
+	store := newFakeStore()
+	engine := newTestEngine(t, store, actualPolicyFactory())
+	experiment, _ := createRunningExperiment(t, engine, domain.PolicyKindRandom)
+	if err := engine.Ready(context.Background()); err != nil {
+		t.Fatalf("Ready() error = %v", err)
+	}
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+	if err := engine.Ready(ctx); !errors.Is(err, context.Canceled) {
+		t.Fatalf("Ready(cancelled) error = %v", err)
+	}
+	engine.markUnhealthy(experiment.ID, errors.New("checkpoint gap"))
+	if err := engine.Ready(context.Background()); !errors.Is(err, ErrPolicyUnhealthy) {
+		t.Fatalf("Ready(unhealthy) error = %v", err)
+	}
+}
+
 func TestEngine_SummaryPersistsNullReasonsAndOPE(t *testing.T) {
 	store := newFakeStore()
 	engine := newTestEngine(t, store, actualPolicyFactory())
@@ -545,7 +563,14 @@ func (store *fakeStore) ListExperiments(context.Context, *ExperimentCursor, int)
 	return result, nil
 }
 
-func (store *fakeStore) ListActiveExperiments(context.Context) ([]domain.Experiment, error) {
+func (store *fakeStore) ListActiveExperiments(ctx context.Context) ([]domain.Experiment, error) {
+	return store.listActiveExperiments(ctx)
+}
+
+func (store *fakeStore) listActiveExperiments(ctx context.Context) ([]domain.Experiment, error) {
+	if err := ctx.Err(); err != nil {
+		return nil, err
+	}
 	store.mu.Lock()
 	defer store.mu.Unlock()
 	var result []domain.Experiment
