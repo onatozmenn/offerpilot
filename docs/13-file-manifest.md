@@ -56,14 +56,14 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| A001 | `openapi/openapi.yaml` | [spec](file-specs/openapi/openapi.yaml.md) | `implemented` |
+| A001 | `openapi/openapi.yaml` | [spec](file-specs/openapi/openapi.yaml.md) | `validated` |
 | A002 | `internal/observability/observability.go` | [spec](file-specs/internal/observability/observability.go.md) | `validated` |
 | A009 | `internal/observability/observability_test.go` | [spec](file-specs/internal/observability/observability_test.go.md) | `validated` |
-| A003 | `internal/httpapi/dto.go` | [spec](file-specs/internal/httpapi/dto.go.md) | `specified` |
-| A004 | `internal/httpapi/problem.go` | [spec](file-specs/internal/httpapi/problem.go.md) | `specified` |
-| A005 | `internal/httpapi/handlers.go` | [spec](file-specs/internal/httpapi/handlers.go.md) | `specified` |
-| A006 | `internal/httpapi/router.go` | [spec](file-specs/internal/httpapi/router.go.md) | `specified` |
-| A007 | `internal/httpapi/handlers_test.go` | [spec](file-specs/internal/httpapi/handlers_test.go.md) | `specified` |
+| A003 | `internal/httpapi/dto.go` | [spec](file-specs/internal/httpapi/dto.go.md) | `validated` |
+| A004 | `internal/httpapi/problem.go` | [spec](file-specs/internal/httpapi/problem.go.md) | `validated` |
+| A005 | `internal/httpapi/handlers.go` | [spec](file-specs/internal/httpapi/handlers.go.md) | `validated` |
+| A006 | `internal/httpapi/router.go` | [spec](file-specs/internal/httpapi/router.go.md) | `validated` |
+| A007 | `internal/httpapi/handlers_test.go` | [spec](file-specs/internal/httpapi/handlers_test.go.md) | `validated` |
 | A008 | `cmd/api/main.go` | [spec](file-specs/cmd/api/main.go.md) | `specified` |
 
 ## Phase 5: Simulation And Demo
