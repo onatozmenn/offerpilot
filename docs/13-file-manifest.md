@@ -41,10 +41,10 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| P001 | `migrations/000001_initial.up.sql` | [spec](file-specs/migrations/000001_initial.up.sql.md) | `implemented` |
-| P002 | `migrations/000001_initial.down.sql` | [spec](file-specs/migrations/000001_initial.down.sql.md) | `implemented` |
-| P010 | `migrations/embed.go` | [spec](file-specs/migrations/embed.go.md) | `implemented` |
-| P003 | `internal/storage/postgres/store.go` | [spec](file-specs/internal/storage/postgres/store.go.md) | `specified` |
+| P001 | `migrations/000001_initial.up.sql` | [spec](file-specs/migrations/000001_initial.up.sql.md) | `validated` |
+| P002 | `migrations/000001_initial.down.sql` | [spec](file-specs/migrations/000001_initial.down.sql.md) | `validated` |
+| P010 | `migrations/embed.go` | [spec](file-specs/migrations/embed.go.md) | `validated` |
+| P003 | `internal/storage/postgres/store.go` | [spec](file-specs/internal/storage/postgres/store.go.md) | `implemented` |
 | P004 | `internal/storage/postgres/repository.go` | [spec](file-specs/internal/storage/postgres/repository.go.md) | `specified` |
 | P005 | `internal/storage/postgres/store_test.go` | [spec](file-specs/internal/storage/postgres/store_test.go.md) | `specified` |
 | P006 | `internal/service/engine.go` | [spec](file-specs/internal/service/engine.go.md) | `specified` |
