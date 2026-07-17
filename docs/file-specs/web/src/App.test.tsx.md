@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -38,6 +38,6 @@ Verify dashboard integration, API client behavior, polling lifecycle, controls, 
 
 ## Completion Checklist
 
-- [ ] Critical workflows and partial states are covered.
-- [ ] Tests are deterministic and accessible-query driven.
-- [ ] Lint/typecheck/test pass without warnings.
+- [x] Critical workflows and partial states are covered.
+- [x] Tests are deterministic and accessible-query driven.
+- [x] Lint/typecheck/test pass without warnings.

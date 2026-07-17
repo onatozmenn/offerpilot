@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -36,6 +36,6 @@ Initialize React, global styles/fonts, and the root application.
 
 ## Completion Checklist
 
-- [ ] StrictMode boot works.
-- [ ] Fonts/styles are local.
-- [ ] No business logic enters the entry point.
+- [x] StrictMode boot works.
+- [x] Fonts/styles are local.
+- [x] No business logic enters the entry point.

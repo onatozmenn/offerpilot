@@ -66,7 +66,7 @@ export interface DashboardState {
   canStart: boolean;
   canStop: boolean;
   selectExperiment: (experiment: Experiment) => void;
-  createDemo: (name: string, policyKind: PolicyKind, epsilon?: number) => Promise<void>;
+  createDemo: (name: string, policyKind: PolicyKind, epsilon?: number) => Promise<boolean>;
   startRun: () => Promise<void>;
   stopRun: () => Promise<void>;
   updateFormValue: (field: SimulationFormField, value: string | number) => void;
@@ -406,18 +406,18 @@ export function useDashboard(client: ApiClient = defaultClient): DashboardState 
   );
 
   const createDemo = useCallback(
-    async (name: string, policyKind: PolicyKind, epsilon?: number): Promise<void> => {
+    async (name: string, policyKind: PolicyKind, epsilon?: number): Promise<boolean> => {
       if (commandLocksRef.current.create) {
-        return;
+        return false;
       }
       const trimmedName = name.trim();
       if (trimmedName === "" || trimmedName.length > 200) {
         setErrors((current) => ({ ...current, command: "Experiment name must contain 1 to 200 characters." }));
-        return;
+        return false;
       }
       if (policyKind === "segmented_epsilon_greedy" && !isProbability(epsilon)) {
         setErrors((current) => ({ ...current, command: "Epsilon must be between 0 and 1." }));
-        return;
+        return false;
       }
 
       const body: CreateDemoExperimentRequest = policyKind === "random"
@@ -431,17 +431,19 @@ export function useDashboard(client: ApiClient = defaultClient): DashboardState 
       try {
         const created = await client.createDemoExperiment(body, controller.signal);
         if (!mountedRef.current || controller.signal.aborted) {
-          return;
+          return false;
         }
         const nextExperiments = [created, ...experimentsRef.current.filter((item) => item.id !== created.id)];
         experimentsRef.current = nextExperiments;
         setExperiments(nextExperiments);
         setStatus((current) => ({ ...current, experiments: "ready" }));
         applySelectedExperiment(created);
+        return true;
       } catch (error: unknown) {
         if (mountedRef.current && !controller.signal.aborted && !isAbortError(error)) {
           setErrors((current) => ({ ...current, command: errorMessage(error) }));
         }
+        return false;
       } finally {
         commandControllersRef.current.delete(controller);
         commandLocksRef.current.create = false;

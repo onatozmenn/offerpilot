@@ -21,9 +21,25 @@ if (window.matchMedia === undefined) {
 
 if (window.ResizeObserver === undefined) {
   class ResizeObserverMock implements ResizeObserver {
+    readonly #callback: ResizeObserverCallback;
+
+    constructor(callback: ResizeObserverCallback) {
+      this.#callback = callback;
+    }
+
     disconnect(): void {}
 
-    observe(): void {}
+    observe(target: Element): void {
+      const size: ResizeObserverSize = { inlineSize: 1_024, blockSize: 420 };
+      const entry: ResizeObserverEntry = {
+        target,
+        contentRect: new DOMRect(0, 0, size.inlineSize, size.blockSize),
+        borderBoxSize: [size],
+        contentBoxSize: [size],
+        devicePixelContentBoxSize: [size],
+      };
+      this.#callback([entry], this);
+    }
 
     unobserve(): void {}
   }

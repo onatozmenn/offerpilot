@@ -143,5 +143,9 @@ function formatLatency(value: number): string {
 
 function humanizeReason(reason: string): string {
   const normalized = reason.replaceAll("_", " ").trim();
-  return normalized === "" ? "Not available yet." : `${normalized[0]?.toUpperCase() ?? ""}${normalized.slice(1)}.`;
+  if (normalized === "") {
+    return "Not available yet.";
+  }
+  const capitalized = `${normalized[0]?.toUpperCase() ?? ""}${normalized.slice(1)}`;
+  return /[.!?]$/.test(capitalized) ? capitalized : `${capitalized}.`;
 }

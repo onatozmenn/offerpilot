@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -37,6 +37,6 @@ Implement OfferPilot's responsive visual system and component styling.
 
 ## Completion Checklist
 
-- [ ] Visual contract and stable dimensions are implemented.
-- [ ] Mobile/desktop layouts do not overlap.
-- [ ] Focus/contrast/reduced-motion checks pass.
+- [x] Visual contract and stable dimensions are implemented.
+- [x] Mobile/desktop layouts do not overlap.
+- [x] Focus/contrast/reduced-motion checks pass.

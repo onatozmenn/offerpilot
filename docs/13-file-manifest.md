@@ -91,11 +91,11 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | W006 | `web/src/components/LearningChart.tsx` | [spec](file-specs/web/src/components/LearningChart.tsx.md) | `validated` |
 | W007 | `web/src/components/OfferPerformanceTable.tsx` | [spec](file-specs/web/src/components/OfferPerformanceTable.tsx.md) | `validated` |
 | W008 | `web/src/components/DecisionFeed.tsx` | [spec](file-specs/web/src/components/DecisionFeed.tsx.md) | `validated` |
-| W009 | `web/src/App.tsx` | [spec](file-specs/web/src/App.tsx.md) | `specified` |
-| W010 | `web/src/styles.css` | [spec](file-specs/web/src/styles.css.md) | `specified` |
-| W011 | `web/src/main.tsx` | [spec](file-specs/web/src/main.tsx.md) | `specified` |
+| W009 | `web/src/App.tsx` | [spec](file-specs/web/src/App.tsx.md) | `validated` |
+| W010 | `web/src/styles.css` | [spec](file-specs/web/src/styles.css.md) | `validated` |
+| W011 | `web/src/main.tsx` | [spec](file-specs/web/src/main.tsx.md) | `validated` |
 | W012 | `web/src/test/setup.ts` | [spec](file-specs/web/src/test/setup.ts.md) | `validated` |
-| W013 | `web/src/App.test.tsx` | [spec](file-specs/web/src/App.test.tsx.md) | `specified` |
+| W013 | `web/src/App.test.tsx` | [spec](file-specs/web/src/App.test.tsx.md) | `validated` |
 
 ## Phase 7: Packaging And Evidence
 
