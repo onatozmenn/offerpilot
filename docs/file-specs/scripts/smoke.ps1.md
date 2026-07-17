@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -38,6 +38,6 @@ Run a bounded end-to-end API smoke test against a clean local Compose deployment
 
 ## Completion Checklist
 
-- [ ] Smoke path is bounded and repeatable.
-- [ ] Core create/run/summary/idempotency behavior is asserted.
-- [ ] Failures return non-zero with safe diagnostics.
+- [x] Smoke path is bounded and repeatable.
+- [x] Core create/run/summary/idempotency behavior is asserted.
+- [x] Failures return non-zero with safe diagnostics.

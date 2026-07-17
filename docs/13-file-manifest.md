@@ -105,9 +105,9 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | R002 | `web/Dockerfile` | [spec](file-specs/web-container.md) | `validated` |
 | R006 | `.dockerignore` | [spec](file-specs/root-dockerignore.md) | `validated` |
 | R007 | `web/.dockerignore` | [spec](file-specs/web-dockerignore.md) | `validated` |
-| R003 | `docker-compose.yml` | [spec](file-specs/docker-compose.yml.md) | `specified` |
+| R003 | `docker-compose.yml` | [spec](file-specs/docker-compose.yml.md) | `validated` |
 | R004 | `.github/workflows/ci.yml` | [spec](file-specs/.github/workflows/ci.yml.md) | `specified` |
-| R005 | `scripts/smoke.ps1` | [spec](file-specs/scripts/smoke.ps1.md) | `specified` |
+| R005 | `scripts/smoke.ps1` | [spec](file-specs/scripts/smoke.ps1.md) | `validated` |
 
 ## Manifest Rules
 

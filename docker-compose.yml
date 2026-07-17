@@ -1,0 +1,85 @@
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "${OFFERPILOT_POSTGRES_USER:-offerpilot}"
+      POSTGRES_PASSWORD: "${OFFERPILOT_POSTGRES_PASSWORD:-offerpilot_local}"
+      POSTGRES_DB: "${OFFERPILOT_POSTGRES_DATABASE:-offerpilot}"
+    ports:
+      - "127.0.0.1:${OFFERPILOT_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - offerpilot-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"
+      interval: 2s
+      timeout: 3s
+      start_period: 5s
+      retries: 30
+    networks:
+      - offerpilot
+
+  api:
+    image: offerpilot-api:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      OFFERPILOT_HTTP_ADDR: 0.0.0.0:8080
+      OFFERPILOT_DATABASE_URL: "postgres://${OFFERPILOT_POSTGRES_USER:-offerpilot}:${OFFERPILOT_POSTGRES_PASSWORD:-offerpilot_local}@db:5432/${OFFERPILOT_POSTGRES_DATABASE:-offerpilot}?sslmode=disable"
+      OFFERPILOT_CORS_ALLOWED_ORIGINS: "http://127.0.0.1:${OFFERPILOT_WEB_PORT:-4173}"
+      OFFERPILOT_LOG_LEVEL: "${OFFERPILOT_LOG_LEVEL:-info}"
+      OFFERPILOT_LOG_FORMAT: "${OFFERPILOT_LOG_FORMAT:-text}"
+    ports:
+      - "127.0.0.1:${OFFERPILOT_API_PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    stop_grace_period: 20s
+    networks:
+      - offerpilot
+
+  web:
+    image: offerpilot-web:local
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: "http://127.0.0.1:${OFFERPILOT_API_PORT:-8080}"
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=8m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:${OFFERPILOT_WEB_PORT:-4173}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+        restart: true
+    stop_grace_period: 10s
+    networks:
+      - offerpilot
+
+volumes:
+  offerpilot-postgres-data:
+
+networks:
+  offerpilot:
+    driver: bridge

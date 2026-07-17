@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -42,6 +42,6 @@ Provide one-command local PostgreSQL, API, and web startup.
 
 ## Completion Checklist
 
-- [ ] Compose config validates.
-- [ ] All services become healthy from a clean volume.
-- [ ] Local ports and credentials are documented.
+- [x] Compose config validates.
+- [x] All services become healthy from a clean volume.
+- [x] Local ports and credentials are documented.
