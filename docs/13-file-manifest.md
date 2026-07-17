@@ -77,7 +77,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | S005 | `internal/simulation/runner_test.go` | [spec](file-specs/internal/simulation/runner_test.go.md) | `validated` |
 | S006 | `internal/bootstrap/demo.go` | [spec](file-specs/internal/bootstrap/demo.go.md) | `validated` |
 | S007 | `internal/bootstrap/demo_test.go` | [spec](file-specs/internal/bootstrap/demo_test.go.md) | `validated` |
-| S008 | `cmd/simulator/main.go` | [spec](file-specs/cmd/simulator/main.go.md) | `specified` |
+| S008 | `cmd/simulator/main.go` | [spec](file-specs/cmd/simulator/main.go.md) | `validated` |
 
 ## Phase 6: Dashboard
 
