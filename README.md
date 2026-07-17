@@ -4,10 +4,10 @@ OfferPilot is a Go-first online-learning system for fictional marketplace offers
 
 The MVP is implemented end to end: PostgreSQL persistence, random and segmented epsilon-greedy policies, recovery, IPS/SNIPS evaluation, seeded simulation, OpenAPI HTTP endpoints, React dashboard, hardened containers, smoke tests, and CI gates.
 
-![OfferPilot desktop dashboard after a 500-decision seeded simulation](docs/images/dashboard-desktop.png)
+![OfferPilot editorial desktop dashboard after a seeded simulation](docs/images/dashboard-editorial-desktop.png)
 
 <p align="center">
-	<img src="docs/images/dashboard-mobile.png" width="390" alt="OfferPilot mobile dashboard controls and metrics" />
+	<img src="docs/images/dashboard-editorial-mobile.png" width="390" alt="OfferPilot editorial mobile dashboard controls and metrics" />
 </p>
 
 ## Product Boundary
@@ -173,7 +173,7 @@ The simulator binary was built with `go build -trimpath -o "$env:TEMP\offerpilot
 | Decision HTTP mean | `3.315 ms` |
 | Decision HTTP p95 histogram upper bound | `<= 5 ms` (`983/1000` in the 5 ms cumulative bucket) |
 
-The p95 value is a Prometheus histogram bucket bound, not an exact percentile. The random/oracle sums are synthetic profile expectations, not causal production uplift. External simulator traffic intentionally does not enter dashboard benchmark attribution; the screenshots use a separate in-process run with seed `20260717` and 500 outcomes.
+The p95 value is a Prometheus histogram bucket bound, not an exact percentile. The random/oracle sums are synthetic profile expectations, not causal production uplift. External simulator traffic intentionally does not enter dashboard benchmark attribution; the screenshots show a separate in-process run with 200 outcomes.
 
 Frontend validation produced 9 passing integration/client tests and V8 coverage of 83.74% statements, 76.72% branches, 83.22% functions, and 84.91% lines. Browser checks covered 1440, 1280, 768, and 320 pixel widths, keyboard focus, reduced motion, contrast, nonblank chart paths, internal table scrolling, and zero root overflow.
 
