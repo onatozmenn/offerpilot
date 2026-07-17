@@ -1,0 +1,37 @@
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Go build, profile, and coverage artifacts
+/bin/
+/api
+/simulator
+*.exe
+*.test
+*.prof
+*.pprof
+*.coverprofile
+/coverage.out
+/coverage.html
+
+# Frontend dependencies and generated output
+/web/node_modules/
+/web/dist/
+/web/coverage/
+
+# Local PostgreSQL data
+/.data/postgres/
+/.postgres-data/
+/postgres-data/
+
+# Editor-local settings
+/.vscode/
+/.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

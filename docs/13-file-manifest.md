@@ -8,7 +8,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| F001 | `.gitignore` | [spec](file-specs/.gitignore.md) | `specified` |
+| F001 | `.gitignore` | [spec](file-specs/.gitignore.md) | `validated` |
 | F002 | `.env.example` | [spec](file-specs/.env.example.md) | `specified` |
 | F003 | `LICENSE` | [spec](file-specs/LICENSE.md) | `specified` |
 | F004 | `go.mod` | [spec](file-specs/go.mod.md) | `specified` |
