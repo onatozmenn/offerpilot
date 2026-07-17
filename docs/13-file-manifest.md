@@ -32,8 +32,8 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | C005 | `internal/bandit/policy.go` | [spec](file-specs/internal/bandit/policy.go.md) | `validated` |
 | C006 | `internal/bandit/random.go` | [spec](file-specs/internal/bandit/random.go.md) | `validated` |
 | C007 | `internal/bandit/random_test.go` | [spec](file-specs/internal/bandit/random_test.go.md) | `validated` |
-| C008 | `internal/bandit/epsilon_greedy.go` | [spec](file-specs/internal/bandit/epsilon_greedy.go.md) | `specified` |
-| C009 | `internal/bandit/epsilon_greedy_test.go` | [spec](file-specs/internal/bandit/epsilon_greedy_test.go.md) | `specified` |
+| C008 | `internal/bandit/epsilon_greedy.go` | [spec](file-specs/internal/bandit/epsilon_greedy.go.md) | `validated` |
+| C009 | `internal/bandit/epsilon_greedy_test.go` | [spec](file-specs/internal/bandit/epsilon_greedy_test.go.md) | `validated` |
 | C010 | `internal/evaluation/ope.go` | [spec](file-specs/internal/evaluation/ope.go.md) | `specified` |
 | C011 | `internal/evaluation/ope_test.go` | [spec](file-specs/internal/evaluation/ope_test.go.md) | `specified` |
 
