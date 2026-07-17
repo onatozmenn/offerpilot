@@ -29,9 +29,9 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | C002 | `internal/domain/model.go` | [spec](file-specs/internal/domain/model.go.md) | `validated` |
 | C003 | `internal/domain/validate.go` | [spec](file-specs/internal/domain/validate.go.md) | `validated` |
 | C004 | `internal/domain/validate_test.go` | [spec](file-specs/internal/domain/validate_test.go.md) | `validated` |
-| C005 | `internal/bandit/policy.go` | [spec](file-specs/internal/bandit/policy.go.md) | `specified` |
-| C006 | `internal/bandit/random.go` | [spec](file-specs/internal/bandit/random.go.md) | `specified` |
-| C007 | `internal/bandit/random_test.go` | [spec](file-specs/internal/bandit/random_test.go.md) | `specified` |
+| C005 | `internal/bandit/policy.go` | [spec](file-specs/internal/bandit/policy.go.md) | `validated` |
+| C006 | `internal/bandit/random.go` | [spec](file-specs/internal/bandit/random.go.md) | `validated` |
+| C007 | `internal/bandit/random_test.go` | [spec](file-specs/internal/bandit/random_test.go.md) | `validated` |
 | C008 | `internal/bandit/epsilon_greedy.go` | [spec](file-specs/internal/bandit/epsilon_greedy.go.md) | `specified` |
 | C009 | `internal/bandit/epsilon_greedy_test.go` | [spec](file-specs/internal/bandit/epsilon_greedy_test.go.md) | `specified` |
 | C010 | `internal/evaluation/ope.go` | [spec](file-specs/internal/evaluation/ope.go.md) | `specified` |
