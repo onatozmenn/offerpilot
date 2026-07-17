@@ -1,0 +1,11 @@
+**
+
+!Dockerfile
+!package.json
+!package-lock.json
+!tsconfig.json
+!vite.config.ts
+!eslint.config.js
+!index.html
+!src/
+!src/**

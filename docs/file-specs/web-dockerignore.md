@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -36,6 +36,6 @@ Keep local dependencies, build output, tests, coverage, and environment secrets 
 
 ## Completion Checklist
 
-- [ ] Local/generated paths are excluded.
-- [ ] Lockfile-driven frontend build succeeds.
-- [ ] No environment secrets enter assets.
+- [x] Local/generated paths are excluded.
+- [x] Lockfile-driven frontend build succeeds.
+- [x] No environment secrets enter assets.

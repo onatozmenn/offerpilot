@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -38,6 +38,6 @@ Build the React application and serve static assets from a small unprivileged we
 
 ## Completion Checklist
 
-- [ ] Build is reproducible through lockfile.
-- [ ] Runtime is static and non-root.
-- [ ] No secrets enter frontend assets.
+- [x] Build is reproducible through lockfile.
+- [x] Runtime is static and non-root.
+- [x] No secrets enter frontend assets.
