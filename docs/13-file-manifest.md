@@ -47,10 +47,10 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | P003 | `internal/storage/postgres/store.go` | [spec](file-specs/internal/storage/postgres/store.go.md) | `validated` |
 | P004 | `internal/storage/postgres/repository.go` | [spec](file-specs/internal/storage/postgres/repository.go.md) | `validated` |
 | P005 | `internal/storage/postgres/store_test.go` | [spec](file-specs/internal/storage/postgres/store_test.go.md) | `validated` |
-| P006 | `internal/service/engine.go` | [spec](file-specs/internal/service/engine.go.md) | `in_progress` |
-| P007 | `internal/service/summary.go` | [spec](file-specs/internal/service/summary.go.md) | `specified` |
-| P008 | `internal/service/recovery.go` | [spec](file-specs/internal/service/recovery.go.md) | `specified` |
-| P009 | `internal/service/engine_test.go` | [spec](file-specs/internal/service/engine_test.go.md) | `specified` |
+| P006 | `internal/service/engine.go` | [spec](file-specs/internal/service/engine.go.md) | `validated` |
+| P007 | `internal/service/summary.go` | [spec](file-specs/internal/service/summary.go.md) | `validated` |
+| P008 | `internal/service/recovery.go` | [spec](file-specs/internal/service/recovery.go.md) | `validated` |
+| P009 | `internal/service/engine_test.go` | [spec](file-specs/internal/service/engine_test.go.md) | `validated` |
 
 ## Phase 4: HTTP API And Operations
 
