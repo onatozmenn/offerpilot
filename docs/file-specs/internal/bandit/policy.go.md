@@ -14,7 +14,7 @@ Define the algorithm boundary and shared selection/update/snapshot types.
 
 ## Public Surface
 
-- `Policy` interface with `Select`, `Update`, `Snapshot`, `Restore`, `Kind`, and `Version` behavior.
+- `Policy` interface with `Select`, `Update`, `Snapshot`, `Restore`, `View`, `Kind`, and `Version` behavior.
 - Immutable selection input/output and update records.
 - Injectable concurrency-safe random-number abstraction or constructor contract.
 
@@ -24,6 +24,7 @@ Define the algorithm boundary and shared selection/update/snapshot types.
 - Keep context canonical and actions deterministically ordered.
 - Carry both the decision's selection version for audit and storage's reserved applied version. Accept delayed selection versions but require `applied_version == current_version + 1`.
 - Define snapshot schema version as integer `1`; unknown integers fail closed.
+- Return a deeply copied, deterministically ordered read-only view for service summaries without exposing locks or mutable maps.
 - Keep interface free of HTTP/storage types.
 
 ## Failure Cases

@@ -25,6 +25,7 @@ Implement the segmented epsilon-greedy online policy with exact propensities and
 - Sample deterministically for a fixed seed and ordered inputs.
 - Update only the selected segment-offer once when the reserved applied version is current plus one, regardless of an older valid decision selection version, then set the reserved version.
 - Protect state with minimal locking and deep-copy snapshots.
+- Expose sorted segment-offer counts, reward sums, and means through the shared read-only policy view.
 - Encode snapshots with an explicit schema version and deterministic ordering.
 
 ## Failure Cases

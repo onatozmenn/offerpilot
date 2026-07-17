@@ -66,6 +66,14 @@ func TestRandomPolicy_UniformDistribution(t *testing.T) {
 	}
 }
 
+func TestRandomPolicy_View(t *testing.T) {
+	policy := newTestRandomPolicy(t, 3, NewLockedRandom(1))
+	view := policy.View()
+	if view.Kind != domain.PolicyKindRandom || view.Version != 3 || view.Epsilon != nil || len(view.Arms) != 0 {
+		t.Fatalf("View() = %#v", view)
+	}
+}
+
 func TestRandomPolicy_SeededSequence(t *testing.T) {
 	first := newTestRandomPolicy(t, 1, NewLockedRandom(20260717))
 	second := newTestRandomPolicy(t, 1, NewLockedRandom(20260717))

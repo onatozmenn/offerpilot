@@ -191,6 +191,38 @@ func TestEpsilonGreedy_MultipleSegments(t *testing.T) {
 	assertDistribution(t, secondSelection.Distribution, offers, []float64{0.5, 0.5})
 }
 
+func TestEpsilonGreedy_ViewIsSortedAndCopied(t *testing.T) {
+	policy := newTestEpsilonPolicy(t, 0.2, 1, NewLockedRandom(1))
+	for _, input := range []SelectionInput{
+		epsilonSelectionInput("segment-z", epsilonOfferD, epsilonOfferB),
+		epsilonSelectionInput("segment-a", epsilonOfferC, epsilonOfferA),
+	} {
+		if _, err := policy.Select(input); err != nil {
+			t.Fatalf("Select(%q) error = %v", input.SegmentKey, err)
+		}
+	}
+
+	view := policy.View()
+	if view.Kind != domain.PolicyKindSegmentedEpsilonGreedy || view.Version != 1 || view.Epsilon == nil || *view.Epsilon != 0.2 || len(view.Arms) != 4 {
+		t.Fatalf("View() = %#v", view)
+	}
+	if view.Arms[0].SegmentKey != "segment-a" || view.Arms[2].SegmentKey != "segment-z" || view.Arms[0].OfferID.String() > view.Arms[1].OfferID.String() || view.Arms[2].OfferID.String() > view.Arms[3].OfferID.String() {
+		t.Fatalf("View() ordering = %#v", view.Arms)
+	}
+	for _, arm := range view.Arms {
+		if arm.Count != DefaultPriorCount || arm.RewardSum != DefaultPriorRewardSum || arm.Mean != 0.5 {
+			t.Fatalf("View() arm = %#v", arm)
+		}
+	}
+
+	view.Arms[0].Count = 999
+	view.Epsilon = nil
+	second := policy.View()
+	if second.Epsilon == nil || second.Arms[0].Count != DefaultPriorCount {
+		t.Fatalf("View() aliases caller data: %#v", second)
+	}
+}
+
 func TestEpsilonGreedy_UpdateLifecycle(t *testing.T) {
 	policy := newTestEpsilonPolicy(t, 0.1, 3, NewLockedRandom(1))
 	input := epsilonSelectionInput("segment", epsilonOfferA, epsilonOfferB)

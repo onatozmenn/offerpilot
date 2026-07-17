@@ -101,6 +101,47 @@ func (policy *EpsilonGreedyPolicy) Version() int64 {
 	return policy.version
 }
 
+func (policy *EpsilonGreedyPolicy) View() PolicyView {
+	policy.mu.RLock()
+	defer policy.mu.RUnlock()
+
+	segmentKeys := make([]string, 0, len(policy.segments))
+	for segmentKey := range policy.segments {
+		segmentKeys = append(segmentKeys, segmentKey)
+	}
+	sort.Strings(segmentKeys)
+
+	arms := make([]ArmView, 0)
+	for _, segmentKey := range segmentKeys {
+		statistics := policy.segments[segmentKey]
+		offerIDs := make([]uuid.UUID, 0, len(statistics))
+		for offerID := range statistics {
+			offerIDs = append(offerIDs, offerID)
+		}
+		sort.Slice(offerIDs, func(left, right int) bool {
+			return offerIDs[left].String() < offerIDs[right].String()
+		})
+		for _, offerID := range offerIDs {
+			statistic := statistics[offerID]
+			arms = append(arms, ArmView{
+				SegmentKey: segmentKey,
+				OfferID:    offerID,
+				Count:      statistic.Count,
+				RewardSum:  statistic.RewardSum,
+				Mean:       statistic.RewardSum / statistic.Count,
+			})
+		}
+	}
+
+	epsilon := policy.epsilon
+	return PolicyView{
+		Kind:    domain.PolicyKindSegmentedEpsilonGreedy,
+		Version: policy.version,
+		Epsilon: &epsilon,
+		Arms:    arms,
+	}
+}
+
 func (policy *EpsilonGreedyPolicy) Select(input SelectionInput) (Selection, error) {
 	policy.mu.Lock()
 	defer policy.mu.Unlock()

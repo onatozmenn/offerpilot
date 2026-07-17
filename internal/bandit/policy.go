@@ -19,10 +19,26 @@ const SnapshotSchemaVersion = domain.PolicySnapshotSchemaVersion
 type Policy interface {
 	Kind() domain.PolicyKind
 	Version() int64
+	View() PolicyView
 	Select(SelectionInput) (Selection, error)
 	Update(Update) error
 	Snapshot() (Snapshot, error)
 	Restore(Snapshot) error
+}
+
+type PolicyView struct {
+	Kind    domain.PolicyKind
+	Version int64
+	Epsilon *float64
+	Arms    []ArmView
+}
+
+type ArmView struct {
+	SegmentKey string
+	OfferID    uuid.UUID
+	Count      float64
+	RewardSum  float64
+	Mean       float64
 }
 
 type SelectionInput struct {

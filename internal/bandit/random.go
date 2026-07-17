@@ -45,6 +45,16 @@ func (policy *RandomPolicy) Version() int64 {
 	return policy.version
 }
 
+func (policy *RandomPolicy) View() PolicyView {
+	policy.mu.RLock()
+	defer policy.mu.RUnlock()
+
+	return PolicyView{
+		Kind:    domain.PolicyKindRandom,
+		Version: policy.version,
+	}
+}
+
 func (policy *RandomPolicy) Select(input SelectionInput) (Selection, error) {
 	policy.mu.RLock()
 	defer policy.mu.RUnlock()
