@@ -13,7 +13,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | F003 | `LICENSE` | [spec](file-specs/LICENSE.md) | `specified` |
 | F004 | `go.mod` | [spec](file-specs/go.mod.md) | `specified` |
 | F005 | `.golangci.yml` | [spec](file-specs/.golangci.yml.md) | `specified` |
-| F006 | `scripts/validate-docs.ps1` | [spec](file-specs/scripts/validate-docs.ps1.md) | `specified` |
+| F006 | `scripts/validate-docs.ps1` | [spec](file-specs/scripts/validate-docs.ps1.md) | `validated` |
 | F007 | `web/package.json` | [spec](file-specs/web/package.json.md) | `specified` |
 | F008 | `web/tsconfig.json` | [spec](file-specs/web/tsconfig.json.md) | `specified` |
 | F009 | `web/vite.config.ts` | [spec](file-specs/web/vite.config.ts.md) | `specified` |
