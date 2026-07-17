@@ -18,12 +18,13 @@ Compute auditable IPS and self-normalized IPS estimates from logged decisions an
 - Evaluation record containing reward, behavior propensity, and candidate action probability.
 - Result containing IPS, SNIPS, sample count, effective sample size, weight diagnostics, and nullable reason.
 - `Evaluate(records []Record) (Result, error)`.
+- Minimum reportable effective sample size `10`; stable null reasons `no_samples`, `zero_candidate_weight`, and `low_effective_sample_size`.
 
 ## Required Behavior
 
 - Validate finite bounded rewards and probabilities; behavior propensity must be greater than zero.
 - Compute importance weights, IPS, SNIPS, and effective sample size with numerically stable accumulation.
-- Return a documented insufficient-data reason for empty input, zero candidate weight, or effective sample size below the configured reporting threshold.
+- Return the documented insufficient-data reason for empty input, zero candidate weight, or effective sample size below `10`.
 - Never clamp invalid input into apparently valid estimates.
 
 ## Failure Cases

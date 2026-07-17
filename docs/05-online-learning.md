@@ -93,7 +93,7 @@ $$
 \hat{V}_{IPS} = \frac{1}{N}\sum_{i=1}^{N} r_i\frac{\pi_e(a_i|x_i)}{\pi_b(a_i|x_i)}
 $$
 
-Self-normalized IPS divides the weighted reward sum by the weight sum. Evaluation rejects zero or invalid behavior propensities, reports effective sample size, and returns insufficient-data reasons rather than unstable numbers.
+Self-normalized IPS divides the weighted reward sum by the weight sum. Evaluation rejects zero or invalid behavior propensities and reports effective sample size. Estimates are reportable when effective sample size is at least `10`; otherwise they are null with `no_samples`, `zero_candidate_weight`, or `low_effective_sample_size` as the stable reason.
 
 Direct-method and doubly robust estimators are roadmap items because they require a separately validated reward model.
 

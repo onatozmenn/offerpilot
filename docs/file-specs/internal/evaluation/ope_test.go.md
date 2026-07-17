@@ -18,7 +18,7 @@ Verify IPS/SNIPS calculations and defensive numerical behavior.
 
 ## Required Behavior
 
-- Cover on-policy equality, non-uniform weights, zero candidate probability, empty samples, low effective sample size, invalid behavior propensities, invalid rewards, `NaN`, infinity, and weight overflow.
+- Cover on-policy equality at the minimum sample threshold, non-uniform weights, zero candidate probability, empty samples, effective sample size immediately below `10`, invalid behavior propensities, invalid rewards, `NaN`, infinity, and weight overflow.
 - Compare floating values using documented tolerances and include intermediate expected values in fixtures.
 
 ## Failure Cases
