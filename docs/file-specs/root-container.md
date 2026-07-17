@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -39,6 +39,6 @@ Build and run the Go API in a small non-root container.
 
 ## Completion Checklist
 
-- [ ] Multi-stage non-root build works.
-- [ ] Runtime contents are minimal.
-- [ ] Readiness succeeds with valid configuration.
+- [x] Multi-stage non-root build works.
+- [x] Runtime contents are minimal.
+- [x] Readiness succeeds with valid configuration.

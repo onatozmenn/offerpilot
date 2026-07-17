@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -37,6 +37,6 @@ Keep secrets, frontend/development output, VCS data, and irrelevant documentatio
 
 ## Completion Checklist
 
-- [ ] Sensitive/irrelevant paths are excluded.
-- [ ] API image still builds from clean source.
-- [ ] Migration embed inputs remain present.
+- [x] Sensitive/irrelevant paths are excluded.
+- [x] API image still builds from clean source.
+- [x] Migration embed inputs remain present.

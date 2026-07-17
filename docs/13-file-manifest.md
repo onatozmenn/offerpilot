@@ -101,9 +101,9 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| R001 | `Dockerfile` | [spec](file-specs/root-container.md) | `specified` |
+| R001 | `Dockerfile` | [spec](file-specs/root-container.md) | `validated` |
 | R002 | `web/Dockerfile` | [spec](file-specs/web-container.md) | `specified` |
-| R006 | `.dockerignore` | [spec](file-specs/root-dockerignore.md) | `specified` |
+| R006 | `.dockerignore` | [spec](file-specs/root-dockerignore.md) | `validated` |
 | R007 | `web/.dockerignore` | [spec](file-specs/web-dockerignore.md) | `specified` |
 | R003 | `docker-compose.yml` | [spec](file-specs/docker-compose.yml.md) | `specified` |
 | R004 | `.github/workflows/ci.yml` | [spec](file-specs/.github/workflows/ci.yml.md) | `specified` |
