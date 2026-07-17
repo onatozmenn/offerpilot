@@ -83,8 +83,8 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| W001 | `web/src/types/api.ts` | [spec](file-specs/web/src/types/api.ts.md) | `specified` |
-| W002 | `web/src/api/client.ts` | [spec](file-specs/web/src/api/client.ts.md) | `specified` |
+| W001 | `web/src/types/api.ts` | [spec](file-specs/web/src/types/api.ts.md) | `validated` |
+| W002 | `web/src/api/client.ts` | [spec](file-specs/web/src/api/client.ts.md) | `validated` |
 | W003 | `web/src/hooks/useDashboard.ts` | [spec](file-specs/web/src/hooks/useDashboard.ts.md) | `specified` |
 | W004 | `web/src/components/MetricStrip.tsx` | [spec](file-specs/web/src/components/MetricStrip.tsx.md) | `specified` |
 | W005 | `web/src/components/SimulationControls.tsx` | [spec](file-specs/web/src/components/SimulationControls.tsx.md) | `specified` |
@@ -94,7 +94,7 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 | W009 | `web/src/App.tsx` | [spec](file-specs/web/src/App.tsx.md) | `specified` |
 | W010 | `web/src/styles.css` | [spec](file-specs/web/src/styles.css.md) | `specified` |
 | W011 | `web/src/main.tsx` | [spec](file-specs/web/src/main.tsx.md) | `specified` |
-| W012 | `web/src/test/setup.ts` | [spec](file-specs/web/src/test/setup.ts.md) | `specified` |
+| W012 | `web/src/test/setup.ts` | [spec](file-specs/web/src/test/setup.ts.md) | `validated` |
 | W013 | `web/src/App.test.tsx` | [spec](file-specs/web/src/App.test.tsx.md) | `specified` |
 
 ## Phase 7: Packaging And Evidence

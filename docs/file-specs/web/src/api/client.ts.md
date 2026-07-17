@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -38,6 +38,6 @@ Provide a typed, abortable browser client for every dashboard API operation.
 
 ## Completion Checklist
 
-- [ ] Every dashboard operation is typed and abortable.
-- [ ] Problems retain safe diagnostics.
-- [ ] No hidden write retries occur.
+- [x] Every dashboard operation is typed and abortable.
+- [x] Problems retain safe diagnostics.
+- [x] No hidden write retries occur.

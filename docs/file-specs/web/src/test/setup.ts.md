@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -36,6 +36,6 @@ Install deterministic frontend test matchers and browser API shims required by c
 
 ## Completion Checklist
 
-- [ ] Tests run without environment warnings.
-- [ ] Cleanup prevents cross-test state.
-- [ ] Shims remain minimal.
+- [x] Tests run without environment warnings.
+- [x] Cleanup prevents cross-test state.
+- [x] Shims remain minimal.

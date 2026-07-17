@@ -2,7 +2,7 @@
 
 ## Status
 
-`specified`
+`validated`
 
 ## Purpose
 
@@ -36,6 +36,6 @@ Mirror the OpenAPI response/request shapes used by the dashboard.
 
 ## Completion Checklist
 
-- [ ] Used API schemas are represented exactly.
-- [ ] Nullability/enums are strict.
-- [ ] No `any` escapes exist.
+- [x] Used API schemas are represented exactly.
+- [x] Nullability/enums are strict.
+- [x] No `any` escapes exist.
