@@ -24,8 +24,8 @@ Status progression is `specified` → `in_progress` → `implemented` → `valid
 
 | ID | Planned file | Specification | Status |
 | --- | --- | --- | --- |
-| C001 | `internal/config/config.go` | [spec](file-specs/internal/config/config.go.md) | `specified` |
-| C012 | `internal/config/config_test.go` | [spec](file-specs/internal/config/config_test.go.md) | `specified` |
+| C001 | `internal/config/config.go` | [spec](file-specs/internal/config/config.go.md) | `validated` |
+| C012 | `internal/config/config_test.go` | [spec](file-specs/internal/config/config_test.go.md) | `validated` |
 | C002 | `internal/domain/model.go` | [spec](file-specs/internal/domain/model.go.md) | `specified` |
 | C003 | `internal/domain/validate.go` | [spec](file-specs/internal/domain/validate.go.md) | `specified` |
 | C004 | `internal/domain/validate_test.go` | [spec](file-specs/internal/domain/validate_test.go.md) | `specified` |
